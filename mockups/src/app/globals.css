@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+:root {
+  --color-ink: #0a0a0a;
+  --color-paper: #ffffff;
+  --color-mist: #f4f3f7;
+  --color-line: #e4e2ea;
+  --color-purple: #5b2eff;
+  --color-purple-dim: #4322c9;
+  --color-violet: #8a5cff;
+  --color-pink: #ff6fd8;
+  --color-cyan: #5ee7ff;
+
+  --font-display: "Archivo", "Arial Black", sans-serif;
+  --font-body: "Inter", "Helvetica Neue", sans-serif;
+}
+
+@theme inline {
+  --color-ink: var(--color-ink);
+  --color-paper: var(--color-paper);
+  --color-mist: var(--color-mist);
+  --color-line: var(--color-line);
+  --color-purple: var(--color-purple);
+  --color-purple-dim: var(--color-purple-dim);
+  --color-violet: var(--color-violet);
+  --color-pink: var(--color-pink);
+  --color-cyan: var(--color-cyan);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::selection {
+  background: var(--color-purple);
+  color: var(--color-paper);
+}
+
+.display-tight {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Slow ambient rotation for holographic props */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-slow-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 22s linear infinite;
+}
+
+.animate-spin-slower {
+  animation: spin-slow-reverse 34s linear infinite;
+}
+
+.animate-float {
+  animation: float-y 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-spin-slow,
+  .animate-spin-slower,
+  .animate-float {
+    animation: none;
+  }
+}

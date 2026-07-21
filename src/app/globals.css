@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+:root {
+  --color-ink: #0f1330;
+  --color-offwhite: #f4f5fc;
+  --color-accent: #5b6ee1;
+  --color-lime: #cbef4c;
+}
+
+@theme {
+  --color-electric-50: #eef0fd;
+  --color-electric-100: #dde0fb;
+  --color-electric-200: #c0c5f7;
+  --color-electric-300: #9da4f2;
+  --color-electric-400: #7b83ec;
+  --color-electric-500: #5b6ee1;
+  --color-electric-onaccent: #0e1235;
+  --color-electric-600: #4855c3;
+  --color-electric-700: #3a44a5;
+  --color-electric-800: #313a87;
+  --color-electric-900: #2a326e;
+
+  --color-surface-50: #f4f5fc;
+  --color-surface-100: #e8eaf5;
+  --color-surface-200: #d1d4eb;
+  --color-surface-300: #a3a9d6;
+  --color-surface-400: #757dc2;
+  --color-surface-500: #5a62a8;
+  --color-surface-600: #484e8a;
+  --color-surface-700: #363b6c;
+  --color-surface-800: #24284e;
+  --color-surface-900: #181c3f;
+  --color-surface-950: #0f1330;
+
+  --color-ink: #0f1330;
+  --color-offwhite: #f4f5fc;
+
+  --color-lime: #cbef4c;
+  --color-lime-onaccent: #1a1f2e;
+
+  --font-sans: "Switzer", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Cabinet Grotesk", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  * {
+    @apply border-surface-800;
+  }
+  body {
+    @apply bg-ink text-surface-100 antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+}
+
+@layer utilities {
+  .glow {
+    box-shadow: 0 0 20px rgba(91, 110, 225, 0.15);
+  }
+  .glow-lg {
+    box-shadow: 0 0 40px rgba(91, 110, 225, 0.1);
+  }
+  .glow-lime {
+    box-shadow: 0 0 20px rgba(203, 239, 76, 0.15);
+  }
+}
+
+
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-slow-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 22s linear infinite;
+}
+
+.animate-spin-slower {
+  animation: spin-slow-reverse 34s linear infinite;
+}
+
+.animate-float {
+  animation: float-y 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,41 @@
+/*
+  Add these to your existing globals.css (don't replace it — merge).
+  Values are sampled from the hero screenshot: warm near-black bg,
+  single orange accent, off-white text. Keep every new section
+  pulling from these vars rather than hardcoding colors, so if the
+  accent ever shifts it only changes in one place.
+*/
+
+:root {
+  --color-bg: #0b0705;
+  --color-bg-elevated: #150e0b;
+  --color-accent: #e8794e;
+  --color-text: #f5f1ed;
+  --color-muted: #9a8f89;
+
+  /* Point these at whatever next/font vars you load in layout.tsx.
+     The hero's headline reads as a bold uppercase grotesque
+     (Archivo Black / Inter 900 territory) — pick one and load it
+     with next/font so it's not a runtime font swap. */
+  --font-display: var(--font-headline, "Inter", sans-serif);
+  --font-body: var(--font-dm-sans, "DM Sans", sans-serif);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
