@@ -1,20 +1,20 @@
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 
-const images = ["1st-service-image.png", "2nd-service-image.png", "3rd-service-image.png"];
+const images = ["3d-2nd-service-image.png", "3d-1st-service-image.png", "3d-3rd-service-image.png"];
 
 const services = [
-  {
-    title: "Website Design & Development",
-    description:
-      "We design and build sites that are clean, fast, and structured around what your visitors need to see before they contact you. Custom design, not templates.",
-    tags: ["Custom Design", "Mobile-First", "SEO Foundation", "Lead Capture", " CMS"],
-  },
   {
     title: "Speed & Performance",
     description:
       "We routinely get sites from below 60 to 90+ on PageSpeed. Image optimisation, code minification, caching — everything that makes your site feel instant.",
-    tags: ["PageSpeed Audits", "Core Web Vitals", "Image Optimisation", "Caching", "Performance Tuning"],
+    tags: ["PageSpeed Audits", "Core Web Vitals", "Image Optimisation", "Caching Strategies", "Performance Tuning"],
+  },
+  {
+    title: "Website Design & Development",
+    description:
+      "We design and build sites that are clean, fast, and structured around what your visitors need to see before they contact you. Custom design, not templates.",
+    tags: ["Custom Design", "Mobile-First", "SEO Foundation", "Lead Capture", "CMS Integration"],
   },
   {
     title: "UI/UX Design",
@@ -46,45 +46,56 @@ export default function Services() {
           {services.map((service, i) => (
             <div
               key={service.title}
-              className="group relative overflow-hidden rounded-2xl bg-ink p-8 sm:p-10"
+              className={`group relative overflow-hidden rounded-2xl p-8 shadow-sm sm:p-10 ${
+                i === 1 ? "bg-lime" : "bg-surface-400"
+              }`}
             >
-              <div className="relative z-10 flex flex-col justify-between gap-8 lg:flex-row lg:items-center">
+              <div className="relative z-10 flex flex-col justify-between gap-8 lg:flex-row lg:items-start">
                 <div className="max-w-xl">
                   <div className="flex items-center gap-4">
-                    <h3 className="font-display text-2xl font-extrabold uppercase tracking-tight text-white sm:text-3xl">
+                    <h3 className={`font-display text-2xl font-extrabold uppercase tracking-tight sm:text-3xl ${
+                      i === 1 ? "text-ink" : "text-white"
+                    }`}>
                       {service.title}
                     </h3>
                   </div>
-                  <p className="mt-4 text-sm leading-relaxed text-surface-400">
+                  <p className={`mt-4 text-sm leading-relaxed ${
+                    i === 1 ? "text-ink/70" : "text-white/70"
+                  }`}>
                     {service.description}
                   </p>
                   <div className="mt-6 flex flex-wrap gap-2">
                     {service.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs font-medium text-surface-400"
+                        className={`rounded-full border px-3.5 py-1.5 text-xs font-medium ${
+                          i === 1
+                            ? "border-ink/10 bg-ink/5 text-ink/70"
+                            : "border-white/15 bg-white/10 text-white/80"
+                        }`}
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
                 </div>
-
-                <div className="hidden shrink-0 items-center justify-center lg:flex">
-                  <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-white/[0.03]">
-                    <Image
-                      src={`/images/${images[i]}`}
-                      alt={service.title}
-                      width={80}
-                      height={80}
-                      className="object-contain"
-                      style={i === 1 ? { filter: "brightness(0.7)" } : undefined}
-                    />
-                  </div>
-                </div>
               </div>
 
-              <span className="absolute right-8 top-8 flex h-10 w-10 items-center justify-center rounded-full bg-lime text-lime-onaccent transition-transform group-hover:rotate-45 sm:right-10 sm:top-10">
+              <div className="absolute bottom-4 right-4 hidden h-40 w-40 items-center justify-center lg:flex sm:bottom-6 sm:right-6">
+                <Image
+                  src={`/images/${images[i]}`}
+                  alt={service.title}
+                  width={160}
+                  height={160}
+                  className="object-contain"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                  }}
+                />
+              </div>
+
+              <span className="absolute right-8 top-8 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-ink text-white transition-transform group-hover:rotate-45 sm:right-10 sm:top-10">
                 <ArrowUpRight className="h-5 w-5" strokeWidth={2.5} />
               </span>
             </div>

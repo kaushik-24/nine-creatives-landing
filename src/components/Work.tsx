@@ -2,7 +2,7 @@
 
 import { portfolioItems } from "@/lib/content";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useEffect, useCallback, useRef } from "react";
 
 function wrap(index: number, length: number) {
@@ -63,9 +63,9 @@ export default function Work() {
   const offsets = [-2, -1, 0, 1, 2];
 
   return (
-      <section
+    <section
       id="work"
-      className="focus-rail px-6 py-24 lg:px-10"
+      className="relative overflow-hidden bg-offwhite px-6 py-24 lg:px-10 select-none"
       tabIndex={0}
       onWheel={handleWheel}
       onKeyDown={(e) => {
@@ -73,157 +73,6 @@ export default function Work() {
         if (e.key === "ArrowRight") next();
       }}
     >
-      <style>{`
-        .focus-rail{
-            position:relative;
-            overflow:hidden;
-            background:#f4f5fc;
-            color:#0f1330;
-            user-select:none;
-        }
-
-        .focus-rail *{
-            box-sizing:border-box;
-        }
-
-        .stage{
-            position:relative;
-            z-index:2;
-            height:100%;
-            padding-top:30px;
-        }
-
-        .rail{
-            position:relative;
-            height:400px;
-            max-width:1200px;
-            margin:auto;
-            perspective:1340px;
-        }
-
-        .card{
-            position:absolute;
-            left:50%;
-            top:50%;
-            width:620px;
-            aspect-ratio:2/1;
-            border-radius:10px;
-            overflow:hidden;
-            cursor:pointer;
-            background:#fff;
-            box-shadow:
-                0 15px 40px rgba(0,0,0,.08);
-            transition:
-                transform .9s cubic-bezier(.22,.61,.36,1);
-        }
-
-        .card img{
-            width:100%;
-            height:100%;
-            object-fit:cover;
-            display:block;
-        }
-
-        .info-controls{
-            max-width:1100px;
-            margin:60px auto 0;
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            gap:40px;
-        }
-
-        .info{
-            flex:1;
-        }
-
-        .meta{
-            display:block;
-            color:#7b83ec;
-            text-transform:uppercase;
-            letter-spacing:2px;
-            font-size:12px;
-            font-weight:600;
-            margin-bottom:12px;
-        }
-
-        .info h3{
-            margin:0 0 15px;
-            font-size:clamp(1.5rem,3vw,2.2rem);
-            line-height:1.1;
-            color:#0f1330;
-        }
-
-        .info p{
-            margin:0;
-            max-width:550px;
-            color:#5a62a8;
-            line-height:1.7;
-        }
-
-        .controls{
-            display:flex;
-            align-items:center;
-            gap:12px;
-        }
-
-        .controls button{
-            width:48px;
-            height:48px;
-            border-radius:50%;
-            border:1px solid #d1d4eb;
-            background:#fff;
-            color:#5a62a8;
-            cursor:pointer;
-            transition:.3s;
-        }
-
-        .controls button:hover{
-            background:#0f1330;
-            color:#fff;
-        }
-
-        #counter{
-            min-width:70px;
-            text-align:center;
-            color:#5a62a8;
-            font-size:14px;
-        }
-
-        @media (max-width:1024px){
-            .card{
-                width:480px;
-            }
-        }
-
-        @media (max-width:767px){
-            .rail{
-                height:320px;
-            }
-            .card{
-                width:360px;
-            }
-            .info-controls{
-                flex-direction:column;
-                text-align:center;
-                margin-top:40px;
-            }
-            .info p{
-                margin:auto;
-            }
-        }
-
-        @media (max-width:480px){
-            .card{
-                width:280px;
-            }
-            .controls{
-                flex-wrap:wrap;
-                justify-content:center;
-            }
-        }
-      `}</style>
-
       <div className="mx-auto max-w-7xl">
         <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-surface-400">
           <span className="h-px w-6 bg-surface-300" />
@@ -244,22 +93,28 @@ export default function Work() {
         </div>
       </div>
 
-      <div className="stage -mx-6 lg:-mx-10 px-6 lg:px-10">
-        <div className="rail">
+      <div className="relative z-10 -mx-6 mt-10 h-full px-6 pt-8 lg:-mx-10 lg:px-10">
+        <div
+          className="relative mx-auto"
+          style={{ perspective: "1340px", height: "400px", maxWidth: "1200px" }}
+        >
           {offsets.map((offset) => {
             const index = wrap(active + offset, count);
             const item = projects[index];
             const x = offset * spacing;
             const scale = offset === 0 ? 1 : 0.85;
             const rotateY = offset * -18;
-            const opacity = 1;
 
             return (
               <div
                 key={offset}
-                className="card"
+                className="absolute left-1/2 top-1/2 overflow-hidden rounded-xl bg-white shadow-lg"
                 style={{
+                  width: "min(620px, calc(100vw - 80px))",
+                  aspectRatio: "2 / 1",
                   transform: `translate(-50%,-50%) translateX(${x}px) rotateY(${rotateY}deg) scale(${scale})`,
+                  transition: "transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1)",
+                  cursor: "pointer",
                 }}
                 onClick={() => {
                   if (offset !== 0) {
@@ -267,23 +122,47 @@ export default function Work() {
                   }
                 }}
               >
-                <img src={item.image} alt={item.title} />
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="h-full w-full object-cover"
+                />
               </div>
             );
           })}
         </div>
 
-        <div className="info-controls">
-          <div className="info">
-            <span className="meta">{activeItem.category}</span>
-            <h3>{activeItem.title}</h3>
-            <p>{activeItem.description}</p>
+        <div className="mx-auto mt-16 flex max-w-5xl flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex-1">
+            <span className="mb-3 block text-xs font-semibold uppercase tracking-[0.15em] text-electric-500">
+              {activeItem.category}
+            </span>
+            <h3 className="font-display text-2xl font-extrabold uppercase tracking-tight text-surface-950 sm:text-3xl">
+              {activeItem.title}
+            </h3>
+            <p className="mt-2 max-w-lg text-sm leading-relaxed text-surface-500">
+              {activeItem.description}
+            </p>
           </div>
 
-          <div className="controls">
-            <button onClick={prev} aria-label="Previous">❮</button>
-            <span id="counter">{active + 1} / {count}</span>
-            <button onClick={next} aria-label="Next">❯</button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={prev}
+              aria-label="Previous"
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-surface-200 bg-white text-surface-500 transition-colors hover:bg-ink hover:text-white"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <span className="min-w-[70px] text-center text-sm text-surface-500">
+              {active + 1} / {count}
+            </span>
+            <button
+              onClick={next}
+              aria-label="Next"
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-surface-200 bg-white text-surface-500 transition-colors hover:bg-ink hover:text-white"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
           </div>
         </div>
       </div>

@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "@/lib/gsap";
-import { revealOnScroll } from "@/lib/gsap";
 
 export default function FinalCTA() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -11,7 +10,18 @@ export default function FinalCTA() {
 
   useGSAP(
     () => {
-      revealOnScroll(".cta-reveal", { trigger: sectionRef.current! });
+      gsap.fromTo(
+        ".cta-reveal",
+        { y: 24, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: "power3.out",
+          scrollTrigger: { trigger: sectionRef.current, start: "top 75%" },
+        }
+      );
 
       const btn = btnRef.current;
       if (!btn) return;
@@ -45,23 +55,23 @@ export default function FinalCTA() {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-[var(--color-bg-elevated)] px-6 py-32 text-center md:py-44"
+      className="relative overflow-hidden bg-ink px-6 py-32 text-center md:py-44"
     >
       <div className="mx-auto max-w-3xl">
-        <h2 className="cta-reveal font-display text-4xl font-black uppercase leading-[1.1] text-white md:text-6xl">
+        <h2 className="cta-reveal font-display text-4xl font-extrabold uppercase leading-tight text-white md:text-6xl">
           Ready for a site
           <br />
           that works harder?
         </h2>
-        <p className="cta-reveal mx-auto mt-6 max-w-md text-lg text-[var(--color-muted)]">
-          Send us your current site. We'll reply within 24 hours with a
+        <p className="cta-reveal mx-auto mt-6 max-w-md text-sm leading-relaxed text-surface-400">
+          Send us your current site. We&apos;ll reply within 24 hours with a
           free, honest review.
         </p>
 
         <a
           ref={btnRef}
           href="#contact"
-          className="cta-reveal mt-10 inline-block rounded-full bg-[var(--color-accent)] px-10 py-5 text-lg font-semibold text-black transition-colors hover:bg-[var(--color-accent)]/90"
+          className="cta-reveal mt-10 inline-block rounded-full bg-lime px-10 py-4 text-sm font-semibold text-lime-onaccent transition-transform hover:scale-[1.03]"
         >
           Get a Free Site Review
         </a>

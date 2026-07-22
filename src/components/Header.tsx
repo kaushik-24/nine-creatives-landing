@@ -15,10 +15,7 @@ export function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-ink/80 backdrop-blur-xl">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-10">
         <Link href="/" className="flex items-center gap-2">
-          <Image src="/images/logo.jpg" alt="Nine Creatives" width={32} height={32} className="rounded" />
-          <span className="font-display text-lg font-extrabold tracking-tight text-white">
-            NINE<span className="text-electric-500">.</span>
-          </span>
+          <Image src="/images/nine-creatives-logo.png" alt="Nine Creatives" width={100} height={80} className="rounded" style={{ objectFit: "contain" }} />
         </Link>
 
         <ul className="hidden items-center gap-8 md:flex">

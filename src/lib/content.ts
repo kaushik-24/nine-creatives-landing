@@ -13,6 +13,12 @@ export const siteConfig = {
     scoreLabel: "Average PageSpeed Score",
     response: "24 hrs",
     responseLabel: "Reply Within",
+    growth: "64%",
+    growthLabel: "Avg Enquiry Growth",
+    experience: "2+",
+    experienceLabel: "Years Experience",
+    satisfaction: "98%",
+    satisfactionLabel: "Client Satisfaction",
   },
   social: {
     twitter: "#",
@@ -379,7 +385,7 @@ export const aboutPageContent = {
   },
   mission: {
     title: "Our Mission",
-    body: "Nine Creatives is a web design and development studio with one focus: helping service businesses get more from their websites. The name comes from Norse mythology. In the old stories, nine worlds hang from Yggdrasil, the great world tree. Each world is distinct. Each one is worth building. We work with a small number of clients at a time because good work takes attention, not just hours.",
+    body: "Nine Creatives is a web design & development studio helping service businesses get more from their websites. Inspired by the nine worlds of Norse mythology, we believe every project should be distinct and worth building. That is why we work with a small number of clients at a time, giving each project the attention good work deserves.",
   },
   values: [
     {

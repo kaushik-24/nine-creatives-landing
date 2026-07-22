@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { Award, Briefcase } from "lucide-react";
-import { aboutPageContent, siteConfig } from "@/lib/content";
+import { Compass } from "lucide-react";
+import { aboutPageContent } from "@/lib/content";
 
 export default function About() {
   const founder = aboutPageContent.team[0];
@@ -24,15 +24,23 @@ export default function About() {
 
         <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-2">
           <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-ink sm:aspect-[16/11] lg:aspect-auto">
+            <div
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              style={{ backgroundImage: "url(/images/low-poly-grid-haikei.svg)" }}
+            />
             <Image
-              src="/images/me-potrait-shadow-image.png"
+              src="/images/kaushik-with-trekking-gears-image.png"
               alt={founder.name}
               fill
               sizes="(min-width: 1024px) 45vw, 100vw"
               className="object-contain"
-              style={{ filter: "grayscale(0.3) contrast(1.05)", objectPosition: "center bottom" }}
+              style={{ filter: "grayscale(0.3) contrast(1.05)", objectPosition: "right bottom" }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/10 to-transparent" />
+
+            <div className="absolute left-7 top-7 z-10 rounded-full bg-lime px-4 py-1.5 text-xs font-semibold text-lime-onaccent">
+              Developer &rarr; Designer
+            </div>
 
             <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between p-7">
               <div>
@@ -42,53 +50,53 @@ export default function About() {
                 <p className="mt-1 text-sm text-white/60">{founder.role}</p>
               </div>
             </div>
-
-            <div className="absolute left-7 top-7 flex flex-wrap gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-lime/15 px-3 py-1.5 text-xs font-medium text-lime backdrop-blur">
-                <Award className="h-3.5 w-3.5" /> {siteConfig.stats.projects} Projects
-              </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1.5 text-xs font-medium text-white/80 backdrop-blur">
-                <Briefcase className="h-3.5 w-3.5" /> 90+ PageSpeed
-              </span>
-            </div>
           </div>
 
           <div className="flex flex-col gap-6">
-            <div className="rounded-2xl bg-ink p-8">
-              <h3 className="font-display text-lg font-extrabold uppercase tracking-tight text-white">
-                {aboutPageContent.mission.title}
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-surface-400">
-                {aboutPageContent.mission.body}
-              </p>
+            <div className="relative overflow-hidden rounded-2xl bg-ink p-8">
+              <div
+                className="pointer-events-none absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
+                style={{ backgroundImage: "url(/images/big-stars-bg-image.svg)" }}
+              />
+              <div className="relative z-10">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-electric-500/15">
+                  <Compass className="h-5 w-5 text-electric-500" />
+                </div>
+                <h3 className="mt-4 font-display text-lg font-extrabold uppercase tracking-tight text-white">
+                  {aboutPageContent.mission.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-white/80">
+                  {aboutPageContent.mission.body}
+                </p>
+              </div>
             </div>
 
-            <div className="grid flex-1 grid-cols-2 gap-6 rounded-2xl bg-lime p-8">
+            <div className="flex flex-1 flex-col gap-6 rounded-2xl bg-lime p-8">
               <div>
                 <p className="font-display text-3xl font-black text-lime-onaccent sm:text-4xl">
-                  {siteConfig.stats.projects}
+                  100%
                 </p>
                 <p className="mt-2 text-xs font-medium text-lime-onaccent/60">
-                  Sites delivered
+                  On-time delivery
                 </p>
               </div>
-              <div className="flex flex-col gap-6">
+              <div className="flex justify-between gap-6">
                 <div>
                   <p className="font-display text-3xl font-black text-lime-onaccent sm:text-4xl">
-                    24 hrs
+                    24/7
                   </p>
                   <p className="mt-2 text-xs font-medium text-lime-onaccent/60">
-                    Reply time
+                    Dedicated support
                   </p>
                 </div>
-              </div>
-              <div>
-                <p className="font-display text-3xl font-black text-lime-onaccent sm:text-4xl">
-                  90+
-                </p>
-                <p className="mt-2 text-xs font-medium text-lime-onaccent/60">
-                  Avg PageSpeed score
-                </p>
+                <div>
+                  <p className="font-display text-3xl font-black text-lime-onaccent sm:text-4xl">
+                    3
+                  </p>
+                  <p className="mt-2 text-xs font-medium text-lime-onaccent/60">
+                    Countries served
+                  </p>
+                </div>
               </div>
             </div>
           </div>

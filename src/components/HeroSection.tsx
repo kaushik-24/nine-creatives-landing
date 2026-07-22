@@ -1,26 +1,9 @@
-"use client";
-
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { ArrowRight } from "lucide-react";
-import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import { revealOnScroll } from "@/lib/gsap";
-import { CountUp } from "@/components/CountUp";
 import Hyperspeed, { electricPreset } from "@/components/Hyperspeed";
 
 export function HeroSection() {
-  const statsRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(
-    () => {
-      if (statsRef.current) {
-        revealOnScroll(statsRef.current.children, { trigger: statsRef.current, stagger: 0.15 });
-      }
-    },
-    { scope: statsRef }
-  );
-
   return (
     <section className="relative min-h-screen overflow-hidden">
       <div className="absolute inset-0 -z-10">
@@ -58,36 +41,6 @@ export function HeroSection() {
                 View Our Work
               </Button>
             </Link>
-          </div>
-
-          <div
-            ref={statsRef}
-            className="hero-stats mt-16 grid grid-cols-3 gap-8 border-t border-white/10 pt-10"
-          >
-            <div>
-              <p className="text-2xl font-bold text-white sm:text-3xl">
-                <CountUp to={20} suffix="+" duration={1.5} />
-              </p>
-              <p className="mt-1 text-xs text-surface-400 uppercase tracking-wider">
-                Sites Delivered
-              </p>
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-lime sm:text-3xl">
-                <CountUp to={90} suffix="+" duration={1.5} />
-              </p>
-              <p className="mt-1 text-xs text-surface-400 uppercase tracking-wider">
-                Avg PageSpeed Score
-              </p>
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-white sm:text-3xl">
-                <CountUp to={24} suffix=" hrs" duration={1.5} />
-              </p>
-              <p className="mt-1 text-xs text-surface-400 uppercase tracking-wider">
-                Reply Within
-              </p>
-            </div>
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { Code2, Zap, TrendingUp } from "lucide-react";
 import { siteConfig } from "@/lib/content";
+import { CountUp } from "@/components/CountUp";
 
 const cards = [
   {
@@ -23,71 +24,96 @@ const cards = [
   {
     icon: TrendingUp,
     tone: "electric",
-    value: siteConfig.stats.response,
-    valueLabel: siteConfig.stats.responseLabel,
-    title: "FAST RESPONSE",
+    value: siteConfig.stats.growth,
+    valueLabel: siteConfig.stats.growthLabel,
+    title: "CLIENT RESULTS",
     description:
-      "We reply fast because we know you do not have time to wait. Clear answers, no runaround.",
+      "Our clients see an average 64% increase in enquiries after a site rebuild.",
   },
 ];
 
 export default function IntroStats() {
   return (
-    <section className="bg-offwhite px-6 pb-20 pt-20 lg:px-10">
+    <section
+      className="bg-offwhite px-6 pb-20 pt-20 lg:px-10"
+    >
       <div className="mx-auto max-w-7xl">
         <h2 className="max-w-3xl font-display text-3xl font-extrabold uppercase leading-[1.15] tracking-tight text-surface-950 sm:text-4xl">
-          Your website should be working harder
-          <span className="text-surface-400">
-            {" "}
-            — we build sites that bring in enquiries, not just sit online.
-          </span>
+          Built To Do More Than Look Good.
+          <span className="text-surface-400"> Designed To Turn Visitors Into Enquiries.</span>
         </h2>
 
         <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-3">
-          {cards.map((card) => {
+          {cards.map((card, i) => {
             const Icon = card.icon;
+            const valueMatch = card.value.match(/^(\d+)(.*)$/);
+            const countTo = valueMatch ? parseInt(valueMatch[1]) : 0;
+            const countSuffix = valueMatch ? valueMatch[2] : "";
             return (
               <div
                 key={card.title}
-                className={`flex min-h-[240px] flex-col justify-between rounded-2xl p-7 ${
+                className={`group flex min-h-[300px] flex-col justify-between rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:p-10 ${
                   card.tone === "ink"
-                    ? "bg-ink"
-                    : "bg-electric-500"
-                }`}
+                    ? "bg-ink hover:shadow-electric-500/10"
+                    : "bg-lime hover:shadow-lime/30"
+                } ${i < 2 ? "relative overflow-hidden" : ""}`}
               >
-                <div className="flex items-start justify-between">
+                {i < 2 && (
+                  <div
+                    className="pointer-events-none absolute inset-0 opacity-60 transition-transform duration-700 group-hover:scale-105"
+                    style={{
+                      backgroundImage: `url(/images/${i === 0 ? "symbol-scatter-haikei.svg" : "low-poly-grid-haikei.svg"})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  />
+                )}
+                <div className={`relative z-10 flex ${i === 2 ? "flex-col gap-4" : "items-start justify-between"}`}>
+                  {i !== 2 && (
                   <span
-                    className={`flex h-10 w-10 items-center justify-center rounded-lg ${
+                    className={`flex h-12 w-12 items-center justify-center rounded-lg transition-all duration-300 group-hover:bg-white/30 group-hover:text-white ${
                       card.tone === "ink"
-                        ? "bg-white/10 text-electric-400"
-                        : "bg-white/10 text-lime"
+                        ? "bg-white/20 text-electric-400"
+                        : "bg-ink/10 text-ink"
                     }`}
                   >
-                    <Icon className="h-5 w-5" strokeWidth={2.2} />
+                    <Icon className="h-6 w-6" strokeWidth={2.2} />
                   </span>
-                  <div className="text-right">
+                  )}
+                  <div className={i === 2 ? "flex flex-col" : "text-right"}>
+                    {i === 2 && (
+                      <div className="text-sm font-semibold tracking-wide text-ink/50 uppercase">
+                        {card.valueLabel}
+                      </div>
+                    )}
                     <div
-                      className={`font-display text-2xl font-extrabold ${
-                        card.tone === "ink" ? "text-white" : "text-white"
+                      className={`font-display ${
+                        i === 2
+                          ? "text-5xl transition-transform duration-300 group-hover:scale-110 sm:text-6xl"
+                          : "text-3xl sm:text-4xl"
+                      } font-extrabold ${
+                        card.tone === "ink" ? "text-white" : "text-ink"
                       }`}
                     >
-                      {card.value}
+                      <CountUp to={countTo} suffix={countSuffix} duration={1.5} />
                     </div>
-                    <div className="text-[10px] font-semibold tracking-wide text-white/40">
+                    {i !== 2 && (
+                    <div className={`text-[10px] font-semibold tracking-wide ${card.tone === "ink" ? "text-white/90" : "text-ink/50"}`}>
                       {card.valueLabel}
                     </div>
+                    )}
                   </div>
                 </div>
 
-                <div>
+                <div className="relative z-10">
                   <h3
-                    className={`font-display text-lg font-extrabold uppercase tracking-tight ${
-                      card.tone === "ink" ? "text-white" : "text-white"
+                    className={`font-display text-xl font-extrabold uppercase tracking-tight sm:text-2xl ${
+                      card.tone === "ink" ? "text-white" : "text-ink"
                     }`}
                   >
                     {card.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-white/45">
+                  <p className={`mt-3 text-sm leading-relaxed sm:text-base sm:leading-relaxed ${card.tone === "ink" ? "text-white/90" : "text-ink/60"}`}>
                     {card.description}
                   </p>
                 </div>

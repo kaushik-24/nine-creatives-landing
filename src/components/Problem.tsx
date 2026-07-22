@@ -40,12 +40,12 @@ export default function Problem() {
   useGSAP(
     () => {
       gsap.fromTo(
-        ".problem-left",
-        { x: -24, opacity: 0 },
+        ".problem-heading",
+        { y: 24, opacity: 0 },
         {
-          x: 0,
+          y: 0,
           opacity: 1,
-          duration: 0.9,
+          duration: 0.8,
           ease: "power3.out",
           scrollTrigger: { trigger: sectionRef.current, start: "top 75%" },
         }
@@ -69,12 +69,12 @@ export default function Problem() {
         if (dash) {
           gsap.fromTo(
             dash,
-            { backgroundPositionX: "0px" },
+            { width: 0 },
             {
-              backgroundPositionX: "-200px",
-              duration: 2.4,
-              delay: i * 0.1,
-              ease: "none",
+              width: "100%",
+              duration: 1.2,
+              delay: i * 0.15,
+              ease: "power2.out",
               scrollTrigger: { trigger: row, start: "top 85%" },
             }
           );
@@ -85,71 +85,58 @@ export default function Problem() {
   );
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative bg-[var(--color-bg)] px-6 py-28 md:py-36"
-    >
-      <div className="mx-auto grid max-w-5xl gap-16 md:grid-cols-[0.85fr_1.15fr] md:items-start">
-        <div className="problem-left md:sticky md:top-32">
-          <p className="font-mono text-sm font-semibold tracking-[0.2em] text-[var(--color-accent)]">
-            THE INSPECTION
-          </p>
-          <h2 className="mt-5 font-display text-5xl font-black uppercase leading-[1.1] text-white md:text-6xl">
+    <section ref={sectionRef} className="bg-ink px-6 py-24 lg:px-10">
+      <div className="mx-auto max-w-7xl">
+        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-surface-400">
+          <span className="h-px w-6 bg-surface-600" />
+          The Inspection
+        </div>
+
+        <div className="problem-heading mt-4 mb-16 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+          <h2 className="font-display text-4xl font-extrabold uppercase tracking-tight text-white sm:text-5xl">
             Three checks
             <br />
             most sites
             <br />
             fail
           </h2>
-          <p className="mt-6 max-w-sm text-lg leading-relaxed text-[var(--color-muted)]">
-            We run every site through the same three checks before we
-            touch a single line of code.
+          <p className="max-w-sm text-sm leading-relaxed text-surface-400">
+            We run every site through the same three checks before we touch a
+            single line of code.
           </p>
         </div>
 
-        <div>
+        <div className="space-y-5">
           {CHECKS.map((check, i) => (
             <div
               key={check.id}
-              className={`check-row py-8 ${
-                i !== 0 ? "border-t border-white/10" : ""
-              }`}
+              className="check-row rounded-2xl bg-white p-8 sm:p-10"
             >
-              <div className="flex flex-col gap-6 sm:flex-row sm:items-baseline sm:justify-between">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-baseline gap-4">
-                  <span className="font-mono text-base text-[var(--color-muted)]">
+                  <span className="font-mono text-sm text-surface-400">
                     {check.id}
                   </span>
-                  <h3 className="font-display text-2xl font-bold uppercase text-white">
+                  <h3 className="font-display text-xl font-bold uppercase text-surface-950">
                     {check.label}
                   </h3>
                 </div>
-
                 <div className="flex items-baseline gap-3">
-                  <span className="font-mono text-4xl font-bold text-[var(--color-accent)]">
+                  <span className="font-mono text-3xl font-bold text-electric-500">
                     {check.metric}
                   </span>
-                  <span className="font-mono text-sm uppercase tracking-wide text-[var(--color-muted)]">
+                  <span className="text-xs uppercase tracking-wide text-surface-400">
                     {check.metricLabel}
                   </span>
-                  <span className="rounded border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10 px-2.5 py-1 font-mono text-xs font-bold tracking-widest text-[var(--color-accent)]">
+                  <span className="rounded-md border border-electric-500/40 bg-electric-500/15 px-3 py-1 font-mono text-xs font-bold tracking-widest text-electric-500">
                     {check.verdict}
                   </span>
                 </div>
               </div>
-
-              <p className="mt-4 max-w-lg text-base leading-relaxed text-[var(--color-muted)]">
+              <p className="mt-4 max-w-lg text-sm leading-relaxed text-surface-500">
                 {check.detail}
               </p>
-
-              <div
-                className="lane-dash mt-6 h-px w-full"
-                style={{
-                  backgroundImage:
-                    "repeating-linear-gradient(to right, var(--color-accent) 0 12px, transparent 12px 24px)",
-                  opacity: 0.35,
-                }}
-              />
+              <div className="lane-dash mt-6 h-px bg-electric-500/30" />
             </div>
           ))}
         </div>

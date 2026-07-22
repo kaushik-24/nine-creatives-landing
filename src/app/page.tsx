@@ -1,7 +1,6 @@
 import { HeroSection } from "@/components/HeroSection";
 import IntroStats from "@/components/IntroStats";
 import Services from "@/components/Services";
-import Work from "@/components/Work";
 import StatsBar from "@/components/StatsBar";
 import About from "@/components/About";
 import Testimonials from "@/components/Testimonials";
@@ -13,7 +12,6 @@ export default function HomePage() {
       <HeroSection />
       <IntroStats />
       <Services />
-      <Work />
       <StatsBar />
       <About />
       <Testimonials />

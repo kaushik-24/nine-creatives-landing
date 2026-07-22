@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Header } from "@/components/Header";
+import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 
 const cabinet = localFont({
@@ -22,12 +23,12 @@ export const metadata: Metadata = {
   title: "Nine Creatives — Web Design & Development Studio",
   description:
     "We help service businesses in Australia and the UK build fast, professional websites that bring in enquiries.",
-  icons: [{ rel: "icon", url: "/images/logo.jpg" }],
+  icons: [{ rel: "icon", url: "/images/nine-creatives-logo.png" }],
   openGraph: {
     title: "Nine Creatives — Web Design & Development Studio",
     description:
       "We help service businesses in Australia and the UK build fast, professional websites that bring in enquiries.",
-    images: [{ url: "/images/logo.jpg", width: 615, height: 615 }],
+    images: [{ url: "/images/nine-creatives-logo.png", width: 1408, height: 768 }],
   },
 };
 
@@ -37,6 +38,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${cabinet.variable} ${switzer.variable} font-sans`}>
+        <SmoothScroll />
         <Header />
         <main id="page-root" className="relative min-h-screen">{children}</main>
       </body>

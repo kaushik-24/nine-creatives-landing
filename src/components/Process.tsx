@@ -55,41 +55,46 @@ export default function Process() {
   );
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative bg-[var(--color-bg-elevated)] px-6 py-28 md:py-36"
-    >
-      <div className="mx-auto max-w-4xl text-center">
-        <div className="mb-6 flex items-center justify-center gap-3 text-xs font-semibold tracking-[0.2em] text-[var(--color-accent)]">
-          <span className="h-px w-8 bg-[var(--color-accent)]/50" />
-          HOW WE WORK
-          <span className="h-px w-8 bg-[var(--color-accent)]/50" />
+    <section ref={sectionRef} className="bg-ink px-6 py-24 lg:px-10">
+      <div className="mx-auto max-w-7xl">
+        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-surface-400">
+          <span className="h-px w-6 bg-surface-600" />
+          How We Work
         </div>
-        <h2 className="font-display text-4xl font-black uppercase leading-[1.1] text-white md:text-6xl">
-          From first call
-          <br />
-          to live site
-        </h2>
-      </div>
 
-      <div className="relative mx-auto mt-20 max-w-5xl">
-        <div className="absolute left-0 right-0 top-6 hidden h-px bg-white/10 md:block" />
-        <div className="process-line absolute left-0 right-0 top-6 hidden h-px bg-[var(--color-accent)] md:block" />
+        <div className="problem-heading mt-4 mb-16 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+          <h2 className="font-display text-4xl font-extrabold uppercase tracking-tight text-white sm:text-5xl">
+            From first call
+            <br />
+            to live site
+          </h2>
+          <p className="max-w-sm text-sm leading-relaxed text-surface-400">
+            A structured four-step process. No fluff, no surprises, just a clear path from review to launch.
+          </p>
+        </div>
 
-        <div className="grid gap-10 md:grid-cols-4">
-          {STEPS.map((step) => (
-            <div key={step.number} className="process-step relative">
-              <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full border border-[var(--color-accent)] bg-[var(--color-bg-elevated)] font-display text-sm font-bold text-[var(--color-accent)]">
-                {step.number}
+        <div className="relative mx-auto max-w-6xl">
+          <div className="absolute left-0 right-0 top-8 hidden h-px bg-white/10 md:block" />
+          <div className="process-line absolute left-0 right-0 top-8 hidden h-px bg-lime md:block" />
+
+          <div className="grid gap-5 md:grid-cols-4">
+            {STEPS.map((step) => (
+              <div
+                key={step.number}
+                className="process-step rounded-2xl border border-white/10 bg-white/5 p-7"
+              >
+                <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-lime font-display text-sm font-bold text-lime-onaccent">
+                  {step.number}
+                </div>
+                <h3 className="mt-6 font-display text-xl font-bold uppercase text-white">
+                  {step.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-surface-400">
+                  {step.detail}
+                </p>
               </div>
-              <h3 className="mt-5 font-display text-xl font-bold uppercase text-white">
-                {step.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-[var(--color-muted)]">
-                {step.detail}
-              </p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
