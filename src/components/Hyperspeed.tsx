@@ -924,6 +924,15 @@ const roadVertex = `
   }
 `;
 
+function hasValidWebGLContext(renderer: THREE.WebGLRenderer): boolean {
+  const gl = renderer.getContext();
+  return (
+    gl !== null &&
+    !gl.isContextLost() &&
+    gl.getContextAttributes() !== null
+  );
+}
+
 function resizeRendererToDisplaySize(
   renderer: THREE.WebGLRenderer,
   setSize: (width: number, height: number, updateStyle: boolean) => void
@@ -943,7 +952,7 @@ class App {
   container: HTMLElement;
   options: HyperspeedOptions;
   renderer: THREE.WebGLRenderer;
-  composer: EffectComposer;
+  composer?: EffectComposer;
   camera: THREE.PerspectiveCamera;
   scene: THREE.Scene;
   renderPass!: RenderPass;
@@ -961,6 +970,7 @@ class App {
   speedUp: number;
   timeOffset: number;
   hasValidSize: boolean;
+  isSupported: boolean;
 
   constructor(container: HTMLElement, options: HyperspeedOptions) {
     this.options = options;
@@ -980,10 +990,13 @@ class App {
       antialias: false,
       alpha: true,
     });
+    this.isSupported = hasValidWebGLContext(this.renderer);
     this.renderer.setSize(initW, initH, false);
     this.renderer.setPixelRatio(window.devicePixelRatio);
 
-    this.composer = new EffectComposer(this.renderer);
+    if (this.isSupported) {
+      this.composer = new EffectComposer(this.renderer);
+    }
     container.appendChild(this.renderer.domElement);
 
     this.camera = new THREE.PerspectiveCamera(
@@ -1068,11 +1081,15 @@ class App {
     this.renderer.setSize(width, height);
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
-    this.composer.setSize(width, height);
+    this.composer?.setSize(width, height);
     this.hasValidSize = true;
   }
 
   initPasses() {
+    if (!this.isSupported || !hasValidWebGLContext(this.renderer) || !this.composer) {
+      return;
+    }
+
     this.renderPass = new RenderPass(this.scene, this.camera);
     this.bloomPass = new EffectPass(
       this.camera,
@@ -1126,7 +1143,15 @@ class App {
   }
 
   init() {
+    if (this.disposed || !this.isSupported) {
+      return;
+    }
+
     this.initPasses();
+    if (!this.composer) {
+      return;
+    }
+
     const options = this.options;
     this.road.init();
     this.leftCarLights.init();
@@ -1229,6 +1254,10 @@ class App {
   }
 
   render(delta: number) {
+    if (!this.composer || !hasValidWebGLContext(this.renderer)) {
+      return;
+    }
+
     this.composer.render(delta);
   }
 
@@ -1283,7 +1312,7 @@ class App {
   }
 
   setSize(width: number, height: number, updateStyles: boolean) {
-    this.composer.setSize(width, height, updateStyles);
+    this.composer?.setSize(width, height, updateStyles);
   }
 
   tick() {
@@ -1296,7 +1325,7 @@ class App {
         this.renderer.setSize(w, h, false);
         this.camera.aspect = w / h;
         this.camera.updateProjectionMatrix();
-        this.composer.setSize(w, h);
+        this.composer?.setSize(w, h);
         this.hasValidSize = true;
       } else {
         requestAnimationFrame(this.tick);
@@ -1593,17 +1622,7 @@ const Hyperspeed: FC<HyperspeedProps> = ({
   const appRef = useRef<App | null>(null);
 
   useEffect(() => {
-    if (appRef.current) {
-      appRef.current.dispose();
-      appRef.current = null;
-      const container = hyperspeed.current;
-      if (container) {
-        while (container.firstChild) {
-          container.removeChild(container.firstChild);
-        }
-      }
-    }
-
+    let active = true;
     const container = hyperspeed.current;
     if (!container) return;
 
@@ -1618,12 +1637,17 @@ const Hyperspeed: FC<HyperspeedProps> = ({
 
     const myApp = new App(container, options);
     appRef.current = myApp;
-    myApp.loadAssets().then(myApp.init);
+
+    void myApp.loadAssets().then(() => {
+      if (active && !myApp.disposed) {
+        myApp.init();
+      }
+    });
 
     return () => {
-      if (appRef.current) {
-        appRef.current.dispose();
-      }
+      active = false;
+      myApp.dispose();
+      appRef.current = null;
     };
   }, [effectOptions]);
 

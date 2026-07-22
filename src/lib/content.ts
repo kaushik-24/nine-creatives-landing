@@ -123,18 +123,6 @@ export const services: Service[] = [
     ],
   },
   {
-    title: "Web Development",
-    description:
-      "Need a specific feature built, an existing site extended, a plugin integrated, or a layout brought to life from a design file? We handle development work that other studios either cannot quote accurately or charge too much for.",
-    icon: "Terminal",
-    features: [
-      "Clean, structured code — no bloat",
-      "Modern framework architecture",
-      "Work delivered on time with no surprises",
-      "Custom functionality built to your exact requirements",
-    ],
-  },
-  {
     title: "Speed & Performance Optimization",
     description:
       "If your site takes more than 3 seconds to load, roughly half your visitors leave before reading a single word. Most service business sites score below 60 on PageSpeed. We routinely get them above 90.",
