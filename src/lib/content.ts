@@ -396,7 +396,7 @@ export const aboutPageContent = {
       name: "Kaushik Gurung",
       role: "Founder and Lead Developer",
       description:
-        "Baron has designed and built websites for service businesses across Australia, the UK, and Nepal. He specializes in performance optimization and building sites that are as fast as they look.",
+        "Kaushik has designed and built websites for service businesses across Australia, the UK, and Nepal. He specializes in performance optimization and building sites that are as fast as they look.",
     },
   ],
 };
