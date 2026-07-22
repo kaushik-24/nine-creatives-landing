@@ -52,6 +52,15 @@ export default function ServicesPage() {
             <div className="group relative grid overflow-hidden rounded-2xl bg-lime lg:grid-cols-[1.2fr_0.8fr]">
               <div className="flex flex-col justify-between p-8 sm:p-10 lg:p-12">
                 <div>
+                  <div className="mb-5 h-24 w-24 sm:h-28 sm:w-28 lg:hidden">
+                    <Image
+                      src={`/images/${featuredMeta.image}`}
+                      alt=""
+                      width={112}
+                      height={112}
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
                   <span className="font-display text-sm font-bold tracking-widest text-ink/40">
                     {featuredMeta.number}
                   </span>
@@ -95,13 +104,13 @@ export default function ServicesPage() {
                 return (
                   <div
                     key={service.title}
-                    className={`group relative flex min-h-[420px] flex-col overflow-hidden rounded-2xl p-8 sm:p-10 ${
+                    className={`group relative flex flex-col overflow-hidden rounded-2xl p-8 sm:p-10 lg:min-h-[420px] ${
                       isInk ? "bg-ink" : "bg-surface-400"
                     }`}
                   >
                     {isInk && (
                       <div
-                        className="pointer-events-none absolute inset-0 opacity-40"
+                        className="pointer-events-none absolute inset-0 opacity-20"
                         style={{
                           backgroundImage:
                             "url(/images/symbol-scatter-haikei.svg)",
@@ -112,6 +121,15 @@ export default function ServicesPage() {
                     )}
 
                     <div className="relative z-10 flex flex-1 flex-col">
+                      <div className="mb-5 h-24 w-24 sm:h-28 sm:w-28 lg:hidden">
+                        <Image
+                          src={`/images/${meta.image}`}
+                          alt=""
+                          width={112}
+                          height={112}
+                          className="h-full w-full object-contain"
+                        />
+                      </div>
                       <span className="font-display text-sm font-bold tracking-widest text-white/30">
                         {meta.number}
                       </span>
@@ -122,7 +140,7 @@ export default function ServicesPage() {
                         {service.description}
                       </p>
 
-                      <ul className="mt-8 space-y-3">
+                      <ul className="mt-8 space-y-3 w-[90%]">
                         {service.features.map((feature) => (
                           <li
                             key={feature}
@@ -138,7 +156,7 @@ export default function ServicesPage() {
                       </ul>
                     </div>
 
-                    <div className="pointer-events-none absolute -bottom-4 -right-4 h-36 w-36 opacity-80 transition-transform duration-500 group-hover:scale-110 sm:h-44 sm:w-44">
+                    <div className="pointer-events-none absolute -bottom-4 -right-4 hidden h-36 w-36 opacity-80 transition-transform duration-500 group-hover:scale-110 sm:h-44 sm:w-44 lg:block">
                       <Image
                         src={`/images/${meta.image}`}
                         alt=""

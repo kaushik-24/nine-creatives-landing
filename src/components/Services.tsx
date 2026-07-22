@@ -8,7 +8,7 @@ const services = [
     title: "Performance & Speed",
     description:
       "We routinely get sites from below 60 to 90+ on PageSpeed. Image optimisation, code minification, caching — everything that makes your site feel instant.",
-    tags: ["PageSpeed Audits", "Core Web Vitals", "Image Optimisation", "Caching Strategies", "Performance Tuning"],
+    tags: ["PageSpeed", "Image Compression", "Core Web Vitals",   "Caching & CDN", "Speed Optimisation"],
   },
   {
     title: "Website Design & Development",
@@ -52,6 +52,15 @@ export default function Services() {
             >
               <div className="relative z-10 flex flex-col justify-between gap-8 lg:flex-row lg:items-start">
                 <div className="max-w-xl">
+                  <div className="mb-5 h-24 w-24 sm:h-28 sm:w-28 lg:hidden">
+                    <Image
+                      src={`/images/${images[i]}`}
+                      alt=""
+                      width={112}
+                      height={112}
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
                   <div className="flex items-center gap-4">
                     <h3 className={`font-display text-2xl font-extrabold uppercase tracking-tight sm:text-3xl ${
                       i === 1 ? "text-ink" : "text-white"

@@ -28,7 +28,7 @@ export function Header() {
                   className={`text-[16px] font-medium uppercase transition-colors ${
                     isActive
                       ? "text-electric-400"
-                      : "text-surface-400 hover:text-white"
+                      : "text-offwhite hover:text-surface-300"
                   }`}
                 >
                   {link.label}
