@@ -115,12 +115,12 @@ export default function Footer() {
         </div>
 
         <div className="relative select-none overflow-hidden">
-          <p className="translate-y-[0.12em] text-center font-display text-[22vw] font-black uppercase leading-none tracking-tight text-white/5 sm:text-[16vw]">
+          <p className="translate-y-[0.12em] text-center font-display text-[16vw] font-black uppercase leading-none tracking-tight text-white/5 sm:text-[12vw]">
             NINE CREATIVES
           </p>
         </div>
 
-        <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 py-8 text-xs text-surface-500 sm:flex-row">
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 py-8 text-[16px] text-surface-500 sm:flex-row">
           <p>&copy; {new Date().getFullYear()} Nine Creatives. All rights reserved.</p>
           <div className="flex gap-6">
             <Link href="#" className="hover:text-white">Privacy Policy</Link>

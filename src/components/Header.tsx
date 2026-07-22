@@ -12,7 +12,7 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-ink/80 backdrop-blur-xl">
+    <header className="fixed top-0 left-0 right-0 z-50  bg-ink/80 backdrop-blur-xl">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-10">
         <Link href="/" className="flex items-center gap-2">
           <Image src="/images/nine-creatives-logo.png" alt="Nine Creatives" width={100} height={80} className="rounded" style={{ objectFit: "contain" }} />
@@ -25,7 +25,7 @@ export function Header() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={`text-[15px] font-medium transition-colors ${
+                  className={`text-[16px] font-medium uppercase transition-colors ${
                     isActive
                       ? "text-electric-400"
                       : "text-surface-400 hover:text-white"
