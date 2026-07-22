@@ -20,13 +20,13 @@ export default function ContactPage() {
 
           <div className="mx-auto mt-16 grid max-w-5xl gap-12 lg:grid-cols-5">
             <div className="lg:col-span-3">
-              <Card hover={false} className="p-8">
+              <Card className="p-8">
                 <ContactForm />
               </Card>
             </div>
 
             <div className="flex flex-col gap-6 lg:col-span-2">
-              <Card hover={false} className="p-6">
+              <Card className="p-6">
                 <div className="mb-3 inline-flex rounded-lg bg-electric-400/10 p-2.5 text-electric-400">
                   <Mail size={20} />
                 </div>
@@ -39,7 +39,7 @@ export default function ContactPage() {
                 </a>
               </Card>
 
-              <Card hover={false} className="p-6">
+              <Card className="p-6">
                 <h3 className="font-semibold text-surface-950 mb-3">
                   What to expect
                 </h3>

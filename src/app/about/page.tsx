@@ -20,7 +20,7 @@ export default function AboutPage() {
           </div>
 
           <div className="mx-auto mt-16 max-w-3xl">
-            <Card hover={false} className="p-8 text-center">
+            <Card className="p-8 text-center">
               <h2 className="text-2xl font-extrabold text-surface-950">
                 {aboutPageContent.mission.title}
               </h2>

@@ -6,6 +6,14 @@ import { useState } from "react";
 
 const testimonials = [
   {
+    quote: "We had a clear idea of what we wanted, and Nine turned it into a website that actually feels like our business.",
+    quoteSecondary:
+      "The whole process was straightforward, and the new site has made a much stronger first impression with potential clients.",
+    name: "Michael Thompson",
+    role: "Owner, Thompson Building Services",
+    image: "/images/testimonial-03-image.png",
+  },
+  {
     quote: "Nine rebuilt our site and our PageSpeed score went from 43 to 91.",
     quoteSecondary:
       "We are getting more calls through the site than we were before.",
@@ -21,14 +29,7 @@ const testimonials = [
     role: "Director, Carter Property Services",
     image: "/images/testimonial-02-image.png",
   },
-  {
-    quote: "We had a clear idea of what we wanted, and Nine turned it into a website that actually feels like our business.",
-    quoteSecondary:
-      "The whole process was straightforward, and the new site has made a much stronger first impression with potential clients.",
-    name: "Michael Thompson",
-    role: "Owner, Thompson Building Services",
-    image: "/images/testimonial-03-image.png",
-  },
+ 
 ];
 
 export default function TestimonialCard() {
