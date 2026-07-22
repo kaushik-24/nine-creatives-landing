@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 const images = ["3d-2nd-service-image.png", "3d-1st-service-image.png", "3d-3rd-service-image.png"];
@@ -104,9 +105,13 @@ export default function Services() {
                 />
               </div>
 
-              <span className="absolute right-8 top-8 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-ink text-white transition-transform group-hover:rotate-45 sm:right-10 sm:top-10">
+              <Link
+                href="/services"
+                className="absolute right-8 top-8 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-ink text-white transition-transform group-hover:rotate-45 sm:right-10 sm:top-10"
+                aria-label={`View ${service.title} services`}
+              >
                 <ArrowUpRight className="h-5 w-5" strokeWidth={2.5} />
-              </span>
+              </Link>
             </div>
           ))}
         </div>
