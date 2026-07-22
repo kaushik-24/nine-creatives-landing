@@ -23,12 +23,28 @@ export const metadata: Metadata = {
   title: "Nine Creatives — Web Design & Development Studio",
   description:
     "We help service businesses in Australia and the UK build fast, professional websites that bring in enquiries.",
-  icons: [{ rel: "icon", url: "/images/nine-creatives-logo.png" }],
+  icons: [{ rel: "icon", url: "/images/og-image.jpg" }],
   openGraph: {
+    type: "website",
+    siteName: "Nine Creatives",
     title: "Nine Creatives — Web Design & Development Studio",
     description:
       "We help service businesses in Australia and the UK build fast, professional websites that bring in enquiries.",
-    images: [{ url: "/images/nine-creatives-logo.png", width: 1408, height: 768 }],
+    images: [
+      {
+        url: "/images/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Nine Creatives",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Nine Creatives — Web Design & Development Studio",
+    description:
+      "We help service businesses in Australia and the UK build fast, professional websites that bring in enquiries.",
+    images: ["/images/og-image.jpg"],
   },
 };
 
