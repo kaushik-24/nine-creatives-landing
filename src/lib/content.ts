@@ -360,7 +360,7 @@ export const faqs = [
 export const servicesPageContent = {
   hero: {
     title: "What We Do",
-    subtitle: "Four things we do well. Nothing else.",
+    subtitle: "Three things we do well for service businesses. Everything else we refer out.",
   },
 };
 

@@ -5,7 +5,7 @@ const images = ["3d-2nd-service-image.png", "3d-1st-service-image.png", "3d-3rd-
 
 const services = [
   {
-    title: "Speed & Performance",
+    title: "Performance & Speed",
     description:
       "We routinely get sites from below 60 to 90+ on PageSpeed. Image optimisation, code minification, caching — everything that makes your site feel instant.",
     tags: ["PageSpeed Audits", "Core Web Vitals", "Image Optimisation", "Caching Strategies", "Performance Tuning"],
