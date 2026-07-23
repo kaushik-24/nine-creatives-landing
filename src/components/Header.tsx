@@ -15,7 +15,7 @@ export function Header() {
     <header className="fixed top-0 left-0 right-0 z-50  bg-ink/80 backdrop-blur-xl">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-10">
         <Link href="/" className="flex items-center gap-2">
-          <Image src="/images/og-image.jpg" alt="Nine Creatives" width={100} height={80} className="rounded" style={{ objectFit: "contain" }} />
+          <Image src="/images/og-image.jpg" alt="Nine Creatives" width={100} height={80} className="rounded" style={{ objectFit: "contain", height: "auto" }} />
         </Link>
 
         <ul className="hidden items-center gap-8 md:flex">
