@@ -15,7 +15,9 @@ export function Header() {
     <header className="fixed top-0 left-0 right-0 z-50  bg-ink/80 backdrop-blur-xl">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-10">
         <Link href="/" className="flex items-center gap-2">
-          <Image src="/images/nine-creatives-logo-image.png" alt="Nine Creatives" width={60} height={60} className="rounded" />
+          <div className="relative w-[110px] h-[110px]">
+            <Image src="/images/nine-creatives-logo-image.png" alt="Nine Creatives" fill sizes="100px" loading="eager" className="rounded object-contain" />
+          </div>
         </Link>
 
         <ul className="hidden items-center gap-8 md:flex">

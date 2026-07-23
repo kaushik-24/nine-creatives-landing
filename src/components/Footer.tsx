@@ -49,8 +49,10 @@ export default function Footer() {
         <div className="grid grid-cols-2 gap-10 py-16 sm:grid-cols-4">
           <div className="col-span-2 sm:col-span-1">
             <div className="flex items-center gap-2">
-              <Image src="/images/nine-creatives-logo-image.png" alt="Nine Creatives" width={80} height={80} className="rounded" />
-             
+              <div className="relative w-[180px] h-[180px]">
+                <Image src="/images/nine-creatives-logo-image.png" alt="Nine Creatives" fill sizes="100px" className="rounded object-contain" />
+              </div>
+              
             </div>
             <p className="mt-4 max-w-[220px] text-sm leading-relaxed text-surface-500">
               A web design and development studio helping service businesses build fast, professional websites.

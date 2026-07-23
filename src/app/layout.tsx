@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   title: "Nine Creatives — Web Design & Development Studio",
   description:
     "We help service businesses in Australia and the UK build fast, professional websites that bring in enquiries.",
-  icons: [{ rel: "icon", url: "/images/nine-creatives-logo-image.png" }],
+  icons: [{ rel: "icon", url: "/images/nine-creatives-site-icon-image.jpg" }],
   openGraph: {
     type: "website",
     siteName: "Nine Creatives",
