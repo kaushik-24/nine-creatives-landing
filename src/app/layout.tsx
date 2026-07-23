@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Header } from "@/components/Header";
-import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 
 const cabinet = localFont({
@@ -54,7 +53,6 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${cabinet.variable} ${switzer.variable} font-sans`}>
-        <SmoothScroll />
         <Header />
         <main id="page-root" className="relative min-h-screen">{children}</main>
       </body>

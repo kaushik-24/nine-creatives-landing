@@ -5,6 +5,7 @@ import StatsBar from "@/components/StatsBar";
 import About from "@/components/About";
 import Testimonials from "@/components/Testimonials";
 import Footer from "@/components/Footer";
+import { HomeClient } from "@/components/HomeClient";
 
 export default function HomePage() {
   return (
@@ -15,6 +16,7 @@ export default function HomePage() {
       <StatsBar />
       <About />
       <Testimonials />
+      <HomeClient />
       <Footer />
     </>
   );

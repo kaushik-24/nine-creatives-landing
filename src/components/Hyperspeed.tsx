@@ -9,12 +9,32 @@ import {
   SMAAPreset,
 } from "postprocessing";
 import { FC, useEffect, useRef } from "react";
-import * as THREE from "three";
+import {
+  Vector2,
+  Vector3,
+  Vector4,
+  Color,
+  Mesh,
+  InstancedBufferGeometry,
+  ShaderMaterial,
+  ShaderChunk,
+  LineCurve3,
+  TubeGeometry,
+  InstancedBufferAttribute,
+  PlaneGeometry,
+  DoubleSide,
+  WebGLRenderer,
+  PerspectiveCamera,
+  Scene,
+  Fog,
+  LoadingManager,
+  Timer,
+} from "three";
 
 interface Distortion {
   uniforms: Record<string, { value: any }>;
   getDistortion: string;
-  getJS?: (progress: number, time: number) => THREE.Vector3;
+  getJS?: (progress: number, time: number) => Vector3;
 }
 
 interface Distortions {
@@ -109,29 +129,29 @@ function nsin(val: number) {
 }
 
 const mountainUniforms = {
-  uFreq: { value: new THREE.Vector3(3, 6, 10) },
-  uAmp: { value: new THREE.Vector3(30, 30, 20) },
+  uFreq: { value: new Vector3(3, 6, 10) },
+  uAmp: { value: new Vector3(30, 30, 20) },
 };
 
 const xyUniforms = {
-  uFreq: { value: new THREE.Vector2(5, 2) },
-  uAmp: { value: new THREE.Vector2(25, 15) },
+  uFreq: { value: new Vector2(5, 2) },
+  uAmp: { value: new Vector2(25, 15) },
 };
 
 const LongRaceUniforms = {
-  uFreq: { value: new THREE.Vector2(2, 3) },
-  uAmp: { value: new THREE.Vector2(35, 10) },
+  uFreq: { value: new Vector2(2, 3) },
+  uAmp: { value: new Vector2(35, 10) },
 };
 
 const turbulentUniforms = {
-  uFreq: { value: new THREE.Vector4(4, 8, 8, 1) },
-  uAmp: { value: new THREE.Vector4(25, 5, 10, 10) },
+  uFreq: { value: new Vector4(4, 8, 8, 1) },
+  uAmp: { value: new Vector4(25, 5, 10, 10) },
 };
 
 const deepUniforms = {
-  uFreq: { value: new THREE.Vector2(4, 8) },
-  uAmp: { value: new THREE.Vector2(10, 20) },
-  uPowY: { value: new THREE.Vector2(20, 2) },
+  uFreq: { value: new Vector2(4, 8) },
+  uAmp: { value: new Vector2(10, 20) },
+  uPowY: { value: new Vector2(20, 2) },
 };
 
 const distortions: Distortions = {
@@ -157,7 +177,7 @@ const distortions: Distortions = {
       const movementProgressFix = 0.02;
       const uFreq = mountainUniforms.uFreq.value;
       const uAmp = mountainUniforms.uAmp.value;
-      const distortion = new THREE.Vector3(
+      const distortion = new Vector3(
         Math.cos(progress * Math.PI * uFreq.x + time) * uAmp.x -
           Math.cos(movementProgressFix * Math.PI * uFreq.x + time) * uAmp.x,
         nsin(progress * Math.PI * uFreq.y + time) * uAmp.y -
@@ -165,8 +185,8 @@ const distortions: Distortions = {
         nsin(progress * Math.PI * uFreq.z + time) * uAmp.z -
           nsin(movementProgressFix * Math.PI * uFreq.z + time) * uAmp.z
       );
-      const lookAtAmp = new THREE.Vector3(2, 2, 2);
-      const lookAtOffset = new THREE.Vector3(0, 0, -5);
+      const lookAtAmp = new Vector3(2, 2, 2);
+      const lookAtOffset = new Vector3(0, 0, -5);
       return distortion.multiply(lookAtAmp).add(lookAtOffset);
     },
   },
@@ -189,15 +209,15 @@ const distortions: Distortions = {
       const movementProgressFix = 0.02;
       const uFreq = xyUniforms.uFreq.value;
       const uAmp = xyUniforms.uAmp.value;
-      const distortion = new THREE.Vector3(
+      const distortion = new Vector3(
         Math.cos(progress * Math.PI * uFreq.x + time) * uAmp.x -
           Math.cos(movementProgressFix * Math.PI * uFreq.x + time) * uAmp.x,
         Math.sin(progress * Math.PI * uFreq.y + time + Math.PI / 2) * uAmp.y -
           Math.sin(movementProgressFix * Math.PI * uFreq.y + time + Math.PI / 2) * uAmp.y,
         0
       );
-      const lookAtAmp = new THREE.Vector3(2, 0.4, 1);
-      const lookAtOffset = new THREE.Vector3(0, 0, -3);
+      const lookAtAmp = new Vector3(2, 0.4, 1);
+      const lookAtOffset = new Vector3(0, 0, -3);
       return distortion.multiply(lookAtAmp).add(lookAtOffset);
     },
   },
@@ -220,15 +240,15 @@ const distortions: Distortions = {
       const camProgress = 0.0125;
       const uFreq = LongRaceUniforms.uFreq.value;
       const uAmp = LongRaceUniforms.uAmp.value;
-      const distortion = new THREE.Vector3(
+      const distortion = new Vector3(
         Math.sin(progress * Math.PI * uFreq.x + time) * uAmp.x -
           Math.sin(camProgress * Math.PI * uFreq.x + time) * uAmp.x,
         Math.sin(progress * Math.PI * uFreq.y + time) * uAmp.y -
           Math.sin(camProgress * Math.PI * uFreq.y + time) * uAmp.y,
         0
       );
-      const lookAtAmp = new THREE.Vector3(1, 1, 0);
-      const lookAtOffset = new THREE.Vector3(0, 0, -5);
+      const lookAtAmp = new Vector3(1, 1, 0);
+      const lookAtOffset = new Vector3(0, 0, -5);
       return distortion.multiply(lookAtAmp).add(lookAtOffset);
     },
   },
@@ -273,13 +293,13 @@ const distortions: Distortions = {
         -nsin(Math.PI * p * uFreq.z + time) * uAmp.z -
         Math.pow(nsin(Math.PI * p * uFreq.w + time / (uFreq.z / uFreq.w)), 5) * uAmp.w;
 
-      const distortion = new THREE.Vector3(
+      const distortion = new Vector3(
         getX(progress) - getX(progress + 0.007),
         getY(progress) - getY(progress + 0.007),
         0
       );
-      const lookAtAmp = new THREE.Vector3(-2, -5, 0);
-      const lookAtOffset = new THREE.Vector3(0, 0, -10);
+      const lookAtAmp = new Vector3(-2, -5, 0);
+      const lookAtOffset = new Vector3(0, 0, -10);
       return distortion.multiply(lookAtAmp).add(lookAtOffset);
     },
   },
@@ -379,21 +399,21 @@ const distortions: Distortions = {
       const getY = (p: number) =>
         Math.pow(p * uPowY.x, uPowY.y) + Math.sin(p * Math.PI * uFreq.y + time) * uAmp.y;
 
-      const distortion = new THREE.Vector3(
+      const distortion = new Vector3(
         getX(progress) - getX(progress + 0.01),
         getY(progress) - getY(progress + 0.01),
         0
       );
-      const lookAtAmp = new THREE.Vector3(-2, -4, 0);
-      const lookAtOffset = new THREE.Vector3(0, 0, -10);
+      const lookAtAmp = new Vector3(-2, -4, 0);
+      const lookAtOffset = new Vector3(0, 0, -10);
       return distortion.multiply(lookAtAmp).add(lookAtOffset);
     },
   },
 };
 
 const distortionUniforms = {
-  uDistortionX: { value: new THREE.Vector2(80, 3) },
-  uDistortionY: { value: new THREE.Vector2(-40, 2.5) },
+  uDistortionX: { value: new Vector2(80, 3) },
+  uDistortionY: { value: new Vector2(-40, 2.5) },
 };
 
 const distortionVertex = `
@@ -442,17 +462,17 @@ function lerp(current: number, target: number, speed = 0.1, limit = 0.001): numb
 class CarLights {
   webgl: App;
   options: HyperspeedOptions;
-  colors: number[] | THREE.Color;
+  colors: number[] | Color;
   speed: [number, number];
-  fade: THREE.Vector2;
-  mesh!: THREE.Mesh<THREE.InstancedBufferGeometry, THREE.ShaderMaterial>;
+  fade: Vector2;
+  mesh!: Mesh<InstancedBufferGeometry, ShaderMaterial>;
 
   constructor(
     webgl: App,
     options: HyperspeedOptions,
-    colors: number[] | THREE.Color,
+    colors: number[] | Color,
     speed: [number, number],
-    fade: THREE.Vector2
+    fade: Vector2
   ) {
     this.webgl = webgl;
     this.options = options;
@@ -463,10 +483,10 @@ class CarLights {
 
   init() {
     const options = this.options;
-    const curve = new THREE.LineCurve3(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -1));
-    const geometry = new THREE.TubeGeometry(curve, 40, 1, 8, false);
+    const curve = new LineCurve3(new Vector3(0, 0, 0), new Vector3(0, 0, -1));
+    const geometry = new TubeGeometry(curve, 40, 1, 8, false);
 
-    const instanced = new THREE.InstancedBufferGeometry().copy(geometry as any) as THREE.InstancedBufferGeometry;
+    const instanced = new InstancedBufferGeometry().copy(geometry as any) as InstancedBufferGeometry;
     instanced.instanceCount = options.lightPairsPerRoadWay * 2;
 
     const laneWidth = options.roadWidth / options.lanesPerRoad;
@@ -475,11 +495,11 @@ class CarLights {
     const aMetrics: number[] = [];
     const aColor: number[] = [];
 
-    let colorArray: THREE.Color[];
+    let colorArray: Color[];
     if (Array.isArray(this.colors)) {
-      colorArray = this.colors.map((c) => new THREE.Color(c));
+      colorArray = this.colors.map((c) => new Color(c));
     } else {
-      colorArray = [new THREE.Color(this.colors)];
+      colorArray = [new Color(this.colors)];
     }
 
     for (let i = 0; i < options.lightPairsPerRoadWay; i++) {
@@ -513,7 +533,7 @@ class CarLights {
       aMetrics.push(length);
       aMetrics.push(spd);
 
-      const color = pickRandom<THREE.Color>(colorArray);
+      const color = pickRandom<Color>(colorArray);
       aColor.push(color.r);
       aColor.push(color.g);
       aColor.push(color.b);
@@ -523,11 +543,11 @@ class CarLights {
       aColor.push(color.b);
     }
 
-    instanced.setAttribute("aOffset", new THREE.InstancedBufferAttribute(new Float32Array(aOffset), 3, false));
-    instanced.setAttribute("aMetrics", new THREE.InstancedBufferAttribute(new Float32Array(aMetrics), 3, false));
-    instanced.setAttribute("aColor", new THREE.InstancedBufferAttribute(new Float32Array(aColor), 3, false));
+    instanced.setAttribute("aOffset", new InstancedBufferAttribute(new Float32Array(aOffset), 3, false));
+    instanced.setAttribute("aMetrics", new InstancedBufferAttribute(new Float32Array(aMetrics), 3, false));
+    instanced.setAttribute("aColor", new InstancedBufferAttribute(new Float32Array(aColor), 3, false));
 
-    const material = new THREE.ShaderMaterial({
+    const material = new ShaderMaterial({
       fragmentShader: carLightsFragment,
       vertexShader: carLightsVertex,
       transparent: true,
@@ -553,7 +573,7 @@ class CarLights {
       );
     };
 
-    const mesh = new THREE.Mesh(instanced, material);
+    const mesh = new Mesh(instanced, material);
     mesh.frustumCulled = false;
     this.webgl.scene.add(mesh);
     this.mesh = mesh;
@@ -568,7 +588,7 @@ class CarLights {
 
 const carLightsFragment = `
   #define USE_FOG;
-  ${THREE.ShaderChunk["fog_pars_fragment"]}
+  ${ShaderChunk["fog_pars_fragment"]}
   varying vec3 vColor;
   varying vec2 vUv; 
   uniform vec2 uFade;
@@ -577,13 +597,13 @@ const carLightsFragment = `
     float alpha = smoothstep(uFade.x, uFade.y, vUv.x);
     gl_FragColor = vec4(color, alpha);
     if (gl_FragColor.a < 0.0001) discard;
-    ${THREE.ShaderChunk["fog_fragment"]}
+    ${ShaderChunk["fog_fragment"]}
   }
 `;
 
 const carLightsVertex = `
   #define USE_FOG;
-  ${THREE.ShaderChunk["fog_pars_vertex"]}
+  ${ShaderChunk["fog_pars_vertex"]}
   attribute vec3 aOffset;
   attribute vec3 aMetrics;
   attribute vec3 aColor;
@@ -611,14 +631,14 @@ const carLightsVertex = `
     gl_Position = projectionMatrix * mvPosition;
     vUv = uv;
     vColor = aColor;
-    ${THREE.ShaderChunk["fog_vertex"]}
+    ${ShaderChunk["fog_vertex"]}
   }
 `;
 
 class LightsSticks {
   webgl: App;
   options: HyperspeedOptions;
-  mesh!: THREE.Mesh<THREE.InstancedBufferGeometry, THREE.ShaderMaterial>;
+  mesh!: Mesh<InstancedBufferGeometry, ShaderMaterial>;
 
   constructor(webgl: App, options: HyperspeedOptions) {
     this.webgl = webgl;
@@ -627,8 +647,8 @@ class LightsSticks {
 
   init() {
     const options = this.options;
-    const geometry = new THREE.PlaneGeometry(1, 1);
-    const instanced = new THREE.InstancedBufferGeometry().copy(geometry as any) as THREE.InstancedBufferGeometry;
+    const geometry = new PlaneGeometry(1, 1);
+    const instanced = new InstancedBufferGeometry().copy(geometry as any) as InstancedBufferGeometry;
     const totalSticks = options.totalSideLightSticks;
     instanced.instanceCount = totalSticks;
 
@@ -637,11 +657,11 @@ class LightsSticks {
     const aColor: number[] = [];
     const aMetrics: number[] = [];
 
-    let colorArray: THREE.Color[];
+    let colorArray: Color[];
     if (Array.isArray(options.colors.sticks)) {
-      colorArray = options.colors.sticks.map((c) => new THREE.Color(c));
+      colorArray = options.colors.sticks.map((c) => new Color(c));
     } else {
-      colorArray = [new THREE.Color(options.colors.sticks)];
+      colorArray = [new Color(options.colors.sticks)];
     }
 
     for (let i = 0; i < totalSticks; i++) {
@@ -649,7 +669,7 @@ class LightsSticks {
       const height = random(options.lightStickHeight);
       aOffset.push((i - 1) * stickoffset * 2 + stickoffset * Math.random());
 
-      const color = pickRandom<THREE.Color>(colorArray);
+      const color = pickRandom<Color>(colorArray);
       aColor.push(color.r);
       aColor.push(color.g);
       aColor.push(color.b);
@@ -658,14 +678,14 @@ class LightsSticks {
       aMetrics.push(height);
     }
 
-    instanced.setAttribute("aOffset", new THREE.InstancedBufferAttribute(new Float32Array(aOffset), 1, false));
-    instanced.setAttribute("aColor", new THREE.InstancedBufferAttribute(new Float32Array(aColor), 3, false));
-    instanced.setAttribute("aMetrics", new THREE.InstancedBufferAttribute(new Float32Array(aMetrics), 2, false));
+    instanced.setAttribute("aOffset", new InstancedBufferAttribute(new Float32Array(aOffset), 1, false));
+    instanced.setAttribute("aColor", new InstancedBufferAttribute(new Float32Array(aColor), 3, false));
+    instanced.setAttribute("aMetrics", new InstancedBufferAttribute(new Float32Array(aMetrics), 2, false));
 
-    const material = new THREE.ShaderMaterial({
+    const material = new ShaderMaterial({
       fragmentShader: sideSticksFragment,
       vertexShader: sideSticksVertex,
-      side: THREE.DoubleSide,
+      side: DoubleSide,
       uniforms: Object.assign(
         {
           uTravelLength: { value: options.length },
@@ -687,7 +707,7 @@ class LightsSticks {
       );
     };
 
-    const mesh = new THREE.Mesh(instanced, material);
+    const mesh = new Mesh(instanced, material);
     mesh.frustumCulled = false;
     this.webgl.scene.add(mesh);
     this.mesh = mesh;
@@ -702,7 +722,7 @@ class LightsSticks {
 
 const sideSticksVertex = `
   #define USE_FOG;
-  ${THREE.ShaderChunk["fog_pars_vertex"]}
+  ${ShaderChunk["fog_pars_vertex"]}
   attribute float aOffset;
   attribute vec3 aColor;
   attribute vec2 aMetrics;
@@ -737,18 +757,18 @@ const sideSticksVertex = `
     vec4 mvPosition = modelViewMatrix * vec4(transformed, 1.);
     gl_Position = projectionMatrix * mvPosition;
     vColor = aColor;
-    ${THREE.ShaderChunk["fog_vertex"]}
+    ${ShaderChunk["fog_vertex"]}
   }
 `;
 
 const sideSticksFragment = `
   #define USE_FOG;
-  ${THREE.ShaderChunk["fog_pars_fragment"]}
+  ${ShaderChunk["fog_pars_fragment"]}
   varying vec3 vColor;
   void main(){
     vec3 color = vec3(vColor);
     gl_FragColor = vec4(color,1.);
-    ${THREE.ShaderChunk["fog_fragment"]}
+    ${ShaderChunk["fog_fragment"]}
   }
 `;
 
@@ -756,9 +776,9 @@ class Road {
   webgl: App;
   options: HyperspeedOptions;
   uTime: { value: number };
-  leftRoadWay!: THREE.Mesh;
-  rightRoadWay!: THREE.Mesh;
-  island!: THREE.Mesh;
+  leftRoadWay!: Mesh;
+  rightRoadWay!: Mesh;
+  island!: Mesh;
 
   constructor(webgl: App, options: HyperspeedOptions) {
     this.webgl = webgl;
@@ -769,7 +789,7 @@ class Road {
   createPlane(side: number, width: number, isRoad: boolean) {
     const options = this.options;
     const segments = 100;
-    const geometry = new THREE.PlaneGeometry(
+    const geometry = new PlaneGeometry(
       isRoad ? options.roadWidth : options.islandWidth,
       options.length,
       20,
@@ -779,7 +799,7 @@ class Road {
     let uniforms: Record<string, { value: any }> = {
       uTravelLength: { value: options.length },
       uColor: {
-        value: new THREE.Color(
+        value: new Color(
           isRoad ? options.colors.roadColor : options.colors.islandColor
         ),
       },
@@ -790,10 +810,10 @@ class Road {
       uniforms = Object.assign(uniforms, {
         uLanes: { value: options.lanesPerRoad },
         uBrokenLinesColor: {
-          value: new THREE.Color(options.colors.brokenLines),
+          value: new Color(options.colors.brokenLines),
         },
         uShoulderLinesColor: {
-          value: new THREE.Color(options.colors.shoulderLines),
+          value: new Color(options.colors.shoulderLines),
         },
         uShoulderLinesWidthPercentage: {
           value: options.shoulderLinesWidthPercentage,
@@ -807,10 +827,10 @@ class Road {
       });
     }
 
-    const material = new THREE.ShaderMaterial({
+    const material = new ShaderMaterial({
       fragmentShader: isRoad ? roadFragment : islandFragment,
       vertexShader: roadVertex,
-      side: THREE.DoubleSide,
+      side: DoubleSide,
       uniforms: Object.assign(
         uniforms,
         this.webgl.fogUniforms,
@@ -829,7 +849,7 @@ class Road {
       );
     };
 
-    const mesh = new THREE.Mesh(geometry, material);
+    const mesh = new Mesh(geometry, material);
     mesh.rotation.x = -Math.PI / 2;
     mesh.position.z = -options.length / 2;
     mesh.position.x +=
@@ -856,13 +876,13 @@ const roadBaseFragment = `
   uniform vec3 uColor;
   uniform float uTime;
   #include <roadMarkings_vars>
-  ${THREE.ShaderChunk["fog_pars_fragment"]}
+  ${ShaderChunk["fog_pars_fragment"]}
   void main() {
     vec2 uv = vUv;
     vec3 color = vec3(uColor);
     #include <roadMarkings_fragment>
     gl_FragColor = vec4(color, 1.);
-    ${THREE.ShaderChunk["fog_fragment"]}
+    ${ShaderChunk["fog_fragment"]}
   }
 `;
 
@@ -906,7 +926,7 @@ const roadFragment = roadBaseFragment
 const roadVertex = `
   #define USE_FOG;
   uniform float uTime;
-  ${THREE.ShaderChunk["fog_pars_vertex"]}
+  ${ShaderChunk["fog_pars_vertex"]}
   uniform float uTravelLength;
   varying vec2 vUv; 
   #include <getDistortion_vertex>
@@ -920,11 +940,11 @@ const roadVertex = `
     vec4 mvPosition = modelViewMatrix * vec4(transformed, 1.);
     gl_Position = projectionMatrix * mvPosition;
     vUv = uv;
-    ${THREE.ShaderChunk["fog_vertex"]}
+    ${ShaderChunk["fog_vertex"]}
   }
 `;
 
-function hasValidWebGLContext(renderer: THREE.WebGLRenderer): boolean {
+function hasValidWebGLContext(renderer: WebGLRenderer): boolean {
   const gl = renderer.getContext();
   return (
     gl !== null &&
@@ -934,7 +954,7 @@ function hasValidWebGLContext(renderer: THREE.WebGLRenderer): boolean {
 }
 
 function resizeRendererToDisplaySize(
-  renderer: THREE.WebGLRenderer,
+  renderer: WebGLRenderer,
   setSize: (width: number, height: number, updateStyle: boolean) => void
 ) {
   const canvas = renderer.domElement;
@@ -951,13 +971,13 @@ function resizeRendererToDisplaySize(
 class App {
   container: HTMLElement;
   options: HyperspeedOptions;
-  renderer: THREE.WebGLRenderer;
+  renderer: WebGLRenderer;
   composer?: EffectComposer;
-  camera: THREE.PerspectiveCamera;
-  scene: THREE.Scene;
+  camera: PerspectiveCamera;
+  scene: Scene;
   renderPass!: RenderPass;
   bloomPass!: EffectPass;
-  clock: THREE.Timer;
+  clock: Timer;
   assets: Record<string, any>;
   disposed: boolean;
   road: Road;
@@ -986,7 +1006,7 @@ class App {
     const initW = Math.max(1, container.offsetWidth);
     const initH = Math.max(1, container.offsetHeight);
 
-    this.renderer = new THREE.WebGLRenderer({
+    this.renderer = new WebGLRenderer({
       antialias: false,
       alpha: true,
     });
@@ -999,7 +1019,7 @@ class App {
     }
     container.appendChild(this.renderer.domElement);
 
-    this.camera = new THREE.PerspectiveCamera(
+    this.camera = new PerspectiveCamera(
       options.fov,
       initW / initH,
       0.1,
@@ -1009,10 +1029,10 @@ class App {
     this.camera.position.y = 8;
     this.camera.position.x = 0;
 
-    this.scene = new THREE.Scene();
+    this.scene = new Scene();
     this.scene.background = null;
 
-    const fog = new THREE.Fog(
+    const fog = new Fog(
       options.colors.background,
       options.length * 0.2,
       options.length * 500
@@ -1025,7 +1045,7 @@ class App {
       fogFar: { value: fog.far },
     };
 
-    this.clock = new THREE.Timer();
+    this.clock = new Timer();
     this.assets = {};
     this.disposed = false;
 
@@ -1035,14 +1055,14 @@ class App {
       options,
       options.colors.leftCars,
       options.movingAwaySpeed,
-      new THREE.Vector2(0, 1 - options.carLightsFade)
+      new Vector2(0, 1 - options.carLightsFade)
     );
     this.rightCarLights = new CarLights(
       this,
       options,
       options.colors.rightCars,
       options.movingCloserSpeed,
-      new THREE.Vector2(1, 0 + options.carLightsFade)
+      new Vector2(1, 0 + options.carLightsFade)
     );
     this.leftSticks = new LightsSticks(this, options);
 
@@ -1118,7 +1138,7 @@ class App {
   loadAssets(): Promise<void> {
     const assets = this.assets;
     return new Promise((resolve) => {
-      const manager = new THREE.LoadingManager(resolve);
+      const manager = new LoadingManager(resolve);
 
       const searchImage = new Image();
       const areaImage = new Image();
@@ -1239,7 +1259,7 @@ class App {
     ) {
       const distortion = this.options.distortion.getJS(0.025, time);
       this.camera.lookAt(
-        new THREE.Vector3(
+        new Vector3(
           this.camera.position.x + distortion.x,
           this.camera.position.y + distortion.y,
           this.camera.position.z + distortion.z
@@ -1266,7 +1286,7 @@ class App {
 
     if (this.scene) {
       this.scene.traverse((object) => {
-        const obj = object as unknown as THREE.Mesh;
+        const obj = object as unknown as Mesh;
         if (!obj.isMesh) return;
 
         if (obj.geometry) obj.geometry.dispose();
@@ -1574,44 +1594,6 @@ export const hyperspeedPresets = {
       rightCars: [0xfdfdf0, 0xf3dea0, 0xe2bb88],
       sticks: 0xfdfdf0,
     },
-  },
-};
-
-export const electricPreset: HyperspeedOptions = {
-  onSpeedUp: () => {},
-  onSlowDown: () => {},
-  distortion: "turbulentDistortion",
-  length: 400,
-  roadWidth: 10,
-  islandWidth: 2,
-  lanesPerRoad: 3,
-  fov: 90,
-  fovSpeedUp: 150,
-  speedUp: 2,
-  carLightsFade: 0.4,
-  totalSideLightSticks: 20,
-  lightPairsPerRoadWay: 40,
-  shoulderLinesWidthPercentage: 0.05,
-  brokenLinesWidthPercentage: 0.1,
-  brokenLinesLengthPercentage: 0.5,
-  lightStickWidth: [0.12, 0.5],
-  lightStickHeight: [1.3, 1.7],
-  movingAwaySpeed: [60, 80],
-  movingCloserSpeed: [-120, -160],
-  carLightsLength: [400 * 0.03, 400 * 0.2],
-  carLightsRadius: [0.05, 0.14],
-  carWidthPercentage: [0.3, 0.5],
-  carShiftX: [-0.8, 0.8],
-  carFloorSeparation: [0, 5],
-  colors: {
-    roadColor: 0x080808,
-    islandColor: 0x0a0a0a,
-    background: 0x000000,
-    shoulderLines: 0x131318,
-    brokenLines: 0x3a44a5,
-    leftCars: [0x3a44a5, 0x4855c3, 0x5b6ee1],
-    rightCars: [0x313a87, 0x3a44a5, 0x4855c3],
-    sticks: 0x3a44a5,
   },
 };
 

@@ -1,14 +1,12 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { ArrowRight } from "lucide-react";
-import Hyperspeed, { electricPreset } from "@/components/Hyperspeed";
+import HyperspeedWrapper from "@/components/HyperspeedWrapper";
 
 export function HeroSection() {
   return (
     <section className="relative min-h-screen overflow-hidden">
-      <div className="absolute inset-0 -z-10">
-        <Hyperspeed effectOptions={electricPreset} />
-      </div>
+      <HyperspeedWrapper />
       <div className="pointer-events-none absolute inset-0 bg-ink/60" />
       <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-32 bg-linear-to-b from-transparent to-ink" />
 
