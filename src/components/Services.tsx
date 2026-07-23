@@ -2,7 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
-const images = ["3d-2nd-service-image.png", "3d-1st-service-image.png", "3d-3rd-service-image.png"];
+const images = [
+  "speed-performance-service-image.png",
+  "website-design-development-service-image.png",
+  "ui-ux-design-service-image.png",
+];
 
 const services = [
   {

@@ -5,17 +5,17 @@ import Footer from "@/components/Footer";
 
 const serviceMeta = [
   {
-    image: "3d-2nd-service-image.png",
+    image: "website-design-development-service-image.png",
     tone: "lime" as const,
     number: "01",
   },
   {
-    image: "3d-1st-service-image.png",
+    image: "speed-performance-service-image.png",
     tone: "ink" as const,
     number: "02",
   },
   {
-    image: "3d-3rd-service-image.png",
+    image: "ui-ux-design-service-image.png",
     tone: "surface" as const,
     number: "03",
   },
