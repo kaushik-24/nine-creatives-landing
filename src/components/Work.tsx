@@ -4,6 +4,7 @@ import { portfolioItems } from "@/lib/content";
 import Link from "next/link";
 import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useEffect, useCallback, useRef } from "react";
+import { Button } from "@/components/ui/Button";
 
 function wrap(index: number, length: number) {
   return (index + length) % length;
@@ -85,10 +86,11 @@ export default function Work() {
           </h2>
           <Link
             href="/work"
-            className="inline-flex w-fit items-center gap-2 rounded-full bg-lime px-5 py-2.5 text-sm font-semibold text-lime-onaccent transition-transform hover:scale-[1.03]"
           >
-            View All Projects
-            <ArrowUpRight className="h-4 w-4" />
+            <Button variant="pill" size="md">
+              View All Projects
+              <ArrowUpRight className="h-4 w-4" />
+            </Button>
           </Link>
         </div>
       </div>

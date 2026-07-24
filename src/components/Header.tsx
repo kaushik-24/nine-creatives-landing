@@ -4,15 +4,30 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { navLinks } from "@/lib/content";
+import { Button } from "@/components/ui/Button";
 
 export function Header() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50  bg-ink/80 backdrop-blur-xl">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-ink/80 backdrop-blur-xl"
+          : "bg-transparent"
+      }`}
+    >
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-10">
         <Link href="/" className="flex items-center gap-2">
           <div className="relative w-[110px] h-[110px]">
@@ -42,9 +57,11 @@ export function Header() {
 
         <Link
           href="/contact"
-          className="hidden items-center gap-2 rounded-full bg-lime px-5 py-2.5 text-sm font-semibold text-lime-onaccent transition-transform hover:scale-[1.03] md:inline-flex"
+          className="hidden md:inline-flex"
         >
-          Get a Free Review
+          <Button variant="pill" size="md">
+            Get a Free Review
+          </Button>
         </Link>
 
         <button
@@ -79,9 +96,11 @@ export function Header() {
             <Link
               href="/contact"
               onClick={() => setMobileOpen(false)}
-              className="mt-2 flex items-center justify-center gap-2 rounded-full bg-lime px-5 py-3 text-sm font-semibold text-lime-onaccent"
+              className="mt-2 flex md:hidden"
             >
-              Get a Free Review
+              <Button variant="pill" size="md" className="w-full">
+                Get a Free Review
+              </Button>
             </Link>
           </nav>
         </div>

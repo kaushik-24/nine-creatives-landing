@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "ghost";
+  variant?: "primary" | "secondary" | "ghost" | "pill" | "pill-outline" | "pill-ghost";
   size?: "sm" | "md" | "lg";
 }
 
@@ -11,11 +11,16 @@ const variants = {
   secondary:
     "border border-electric-400 text-electric-400 hover:bg-electric-400/10",
   ghost: "text-surface-300 hover:text-white hover:bg-white/5",
+  pill: "rounded-full bg-lime text-lime-onaccent hover:scale-[1.03] glow-lime",
+  "pill-outline":
+    "rounded-full border border-electric-400 text-electric-400 hover:bg-electric-400/10",
+  "pill-ghost":
+    "rounded-full bg-white/10 text-white backdrop-blur hover:bg-white/15",
 };
 
 const sizes = {
   sm: "px-4 py-2 text-sm",
-  md: "px-6 py-2.5 text-base",
+  md: "px-5 py-2.5 text-sm",
   lg: "px-8 py-3 text-lg",
 };
 

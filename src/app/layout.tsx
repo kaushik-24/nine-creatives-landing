@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Header } from "@/components/Header";
+import Loader from "@/components/Loader";
 import "./globals.css";
 
 const cabinet = localFont({
@@ -53,6 +54,17 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${cabinet.variable} ${switzer.variable} font-sans`}>
+        <div
+          id="nc__loader"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-ink transition-opacity duration-700"
+        >
+          <img
+            src="/images/nine-creatives-logo-image.png"
+            alt="Nine Creatives"
+            className="h-28 w-auto animate-float"
+          />
+        </div>
+        <Loader />
         <Header />
         <main id="page-root" className="relative min-h-screen">{children}</main>
       </body>

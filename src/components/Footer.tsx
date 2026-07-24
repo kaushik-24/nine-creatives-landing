@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Mail, ArrowUpRight } from "lucide-react";
 import { XIcon, InstagramIcon, LinkedInIcon } from "./SocialIcons";
 import { siteConfig } from "@/lib/content";
+import { Button } from "@/components/ui/Button";
 
 const socials = [
   { icon: XIcon, label: "X" },
@@ -31,17 +32,19 @@ export default function Footer() {
           <div className="flex flex-wrap items-center gap-3">
             <Link
               href={`mailto:${siteConfig.email}`}
-              className="inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-3 text-sm font-medium text-white backdrop-blur transition-colors hover:bg-white/15"
             >
-              <Mail className="h-4 w-4" />
-              {siteConfig.email}
+              <Button variant="pill-ghost" size="md">
+                <Mail className="h-4 w-4" />
+                {siteConfig.email}
+              </Button>
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 rounded-full bg-lime px-5 py-3 text-sm font-semibold text-lime-onaccent transition-transform hover:scale-[1.03]"
             >
-              Get a Free Review
-              <ArrowUpRight className="h-4 w-4" />
+              <Button variant="pill" size="md">
+                Get a Free Review
+                <ArrowUpRight className="h-4 w-4" />
+              </Button>
             </Link>
           </div>
         </div>
