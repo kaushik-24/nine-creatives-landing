@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
+import Image from "next/image";
 import AnimatedHeroBackground from "@/components/AnimatedHeroBackground";
 import { Button } from "@/components/ui/Button";
+import { canUseHeroShader, getShaderDpr } from "@/lib/perf";
 
 interface HeroProps {
   trustBadge?: {
@@ -26,11 +28,28 @@ interface HeroProps {
   className?: string;
 }
 
-const useShaderBackground = () => {
+function HeroMobileBackground() {
+  return (
+    <div className="absolute inset-0 bg-black md:hidden" aria-hidden="true">
+      <Image
+        src="/images/mobile-hero-section-bg-image.webp"
+        alt=""
+        fill
+        priority
+        sizes="(max-width: 767px) 100vw, 1px"
+        className="object-cover object-center"
+      />
+    </div>
+  );
+}
+
+const useShaderBackground = (active: boolean) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameRef = useRef<number>(0);
   const rendererRef = useRef<WebGLRenderer | null>(null);
   const pointersRef = useRef<PointerHandler | null>(null);
+  const visibleRef = useRef(true);
+  const runningRef = useRef(false);
 
   class WebGLRenderer {
     private canvas: HTMLCanvasElement;
@@ -56,8 +75,11 @@ void main(){gl_Position=position;}`;
     constructor(canvas: HTMLCanvasElement, scale: number) {
       this.canvas = canvas;
       this.scale = scale;
-      this.gl = canvas.getContext("webgl2")!;
-      this.gl.viewport(0, 0, canvas.width * scale, canvas.height * scale);
+      this.gl = canvas.getContext("webgl2", {
+        antialias: false,
+        powerPreference: "high-performance",
+      })!;
+      this.gl.viewport(0, 0, canvas.width, canvas.height);
       this.shaderSource = defaultShaderSource;
     }
 
@@ -86,7 +108,7 @@ void main(){gl_Position=position;}`;
 
     updateScale(scale: number) {
       this.scale = scale;
-      this.gl.viewport(0, 0, this.canvas.width * scale, this.canvas.height * scale);
+      this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
     }
 
     compile(shader: WebGLShader, source: string) {
@@ -255,36 +277,37 @@ void main(){gl_Position=position;}`;
     }
   }
 
-  const resize = () => {
-    if (!canvasRef.current) return;
-
-    const canvas = canvasRef.current;
-    const dpr = Math.max(1, 0.5 * window.devicePixelRatio);
-
-    canvas.width = window.innerWidth * dpr;
-    canvas.height = window.innerHeight * dpr;
-
-    if (rendererRef.current) {
-      rendererRef.current.updateScale(dpr);
+  const stopLoop = useCallback(() => {
+    runningRef.current = false;
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = 0;
     }
-  };
+  }, []);
 
-  const loop = (now: number) => {
-    if (!rendererRef.current || !pointersRef.current) return;
+  const startLoop = useCallback(() => {
+    if (runningRef.current || !visibleRef.current) return;
+    runningRef.current = true;
 
-    rendererRef.current.updateMouse(pointersRef.current.first);
-    rendererRef.current.updatePointerCount(pointersRef.current.count);
-    rendererRef.current.updatePointerCoords(pointersRef.current.coords);
-    rendererRef.current.updateMove(pointersRef.current.move);
-    rendererRef.current.render(now);
+    const loop = (now: number) => {
+      if (!runningRef.current || !rendererRef.current || !pointersRef.current) return;
+
+      rendererRef.current.updateMouse(pointersRef.current.first);
+      rendererRef.current.updatePointerCount(pointersRef.current.count);
+      rendererRef.current.updatePointerCoords(pointersRef.current.coords);
+      rendererRef.current.updateMove(pointersRef.current.move);
+      rendererRef.current.render(now);
+      animationFrameRef.current = requestAnimationFrame(loop);
+    };
+
     animationFrameRef.current = requestAnimationFrame(loop);
-  };
+  }, []);
 
   useEffect(() => {
-    if (!canvasRef.current) return;
+    if (!active || !canvasRef.current) return;
 
     const canvas = canvasRef.current;
-    const dpr = Math.max(1, 0.5 * window.devicePixelRatio);
+    const dpr = getShaderDpr();
 
     rendererRef.current = new WebGLRenderer(canvas, dpr);
     pointersRef.current = new PointerHandler(canvas, dpr);
@@ -292,29 +315,67 @@ void main(){gl_Position=position;}`;
     rendererRef.current.setup();
     rendererRef.current.init();
 
+    const resize = () => {
+      if (!canvasRef.current) return;
+      const el = canvasRef.current;
+      const parent = el.parentElement;
+      const w = parent?.clientWidth || window.innerWidth;
+      const h = parent?.clientHeight || window.innerHeight;
+      const nextDpr = getShaderDpr();
+      el.width = Math.max(1, Math.floor(w * nextDpr));
+      el.height = Math.max(1, Math.floor(h * nextDpr));
+      rendererRef.current?.updateScale(nextDpr);
+      pointersRef.current?.updateScale(nextDpr);
+    };
+
     resize();
 
     if (rendererRef.current.test(defaultShaderSource) === null) {
       rendererRef.current.updateShader(defaultShaderSource);
     }
 
-    loop(0);
+    const root = canvas.parentElement;
+    const observer = root
+      ? new IntersectionObserver(
+          ([entry]) => {
+            visibleRef.current = entry.isIntersecting;
+            if (entry.isIntersecting) startLoop();
+            else stopLoop();
+          },
+          { threshold: 0.05 }
+        )
+      : null;
 
+    if (root && observer) observer.observe(root);
+
+    visibleRef.current = true;
+    startLoop();
     window.addEventListener("resize", resize);
 
     return () => {
       window.removeEventListener("resize", resize);
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-      if (rendererRef.current) {
-        rendererRef.current.reset();
-      }
+      observer?.disconnect();
+      stopLoop();
+      rendererRef.current?.reset();
+      rendererRef.current = null;
+      pointersRef.current = null;
     };
-  }, []);
+  }, [active, startLoop, stopLoop]);
 
   return canvasRef;
 };
+
+function ShaderCanvas() {
+  const canvasRef = useShaderBackground(true);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 h-full w-full touch-none"
+      style={{ background: "transparent" }}
+    />
+  );
+}
 
 const AnimatedShaderHero: React.FC<HeroProps> = ({
   trustBadge,
@@ -323,10 +384,14 @@ const AnimatedShaderHero: React.FC<HeroProps> = ({
   buttons,
   className = "",
 }) => {
-  const canvasRef = useShaderBackground();
+  const [useShader, setUseShader] = useState(false);
+
+  useEffect(() => {
+    setUseShader(canUseHeroShader());
+  }, []);
 
   return (
-    <div className={`relative w-full h-screen overflow-hidden bg-black ${className}`}>
+    <div className={`relative h-screen w-full overflow-hidden bg-black ${className}`}>
       <style jsx>{`
         @keyframes fade-in-down {
           from {
@@ -374,24 +439,10 @@ const AnimatedShaderHero: React.FC<HeroProps> = ({
         .animation-delay-800 {
           animation-delay: 0.8s;
         }
-
-        @keyframes gradient-shift {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-
-        .animate-gradient {
-          background-size: 200% 200%;
-          animation: gradient-shift 3s ease infinite;
-        }
       `}</style>
 
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full object-contain touch-none"
-        style={{ background: "black" }}
-      />
+      <HeroMobileBackground />
+      {useShader && <ShaderCanvas />}
 
       <AnimatedHeroBackground className="z-[1]" />
 
@@ -411,10 +462,10 @@ const AnimatedShaderHero: React.FC<HeroProps> = ({
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
           <div className="mx-auto max-w-5xl text-center">
             <div className="space-y-2">
-              <h1 className="font-display text-5xl font-extrabold uppercase leading-[1.05] tracking-tight text-white md:text-7xl lg:text-8xl animate-fade-in-up animation-delay-200">
+              <h1 className="animate-fade-in-up animation-delay-200 font-display text-5xl font-extrabold uppercase leading-[1.05] tracking-tight text-white md:text-7xl lg:text-8xl">
                 {headline.line1}
               </h1>
-              <h1 className="font-display text-5xl font-extrabold uppercase leading-[1.05] tracking-tight text-white md:text-7xl lg:text-8xl animate-fade-in-up animation-delay-400">
+              <h1 className="animate-fade-in-up animation-delay-400 font-display text-5xl font-extrabold uppercase leading-[1.05] tracking-tight text-white md:text-7xl lg:text-8xl">
                 {headline.line2}
               </h1>
             </div>
@@ -454,7 +505,7 @@ const defaultShaderSource = `#version 300 es
 *	and new civilizations, to boldly go where no man has
 *	gone before.
 */
-precision highp float;
+precision mediump float;
 out vec4 O;
 uniform vec2 resolution;
 uniform float time;
@@ -478,7 +529,7 @@ float noise(in vec2 p) {
 }
 float fbm(vec2 p) {
   float t=.0, a=1.; mat2 m=mat2(1.,-.5,.2,1.2);
-  for (int i=0; i<5; i++) {
+  for (int i=0; i<4; i++) {
     t+=a*noise(p);
     p*=2.*m;
     a*=.5;
@@ -500,7 +551,7 @@ void main(void) {
 	vec3 col=vec3(0);
 	float bg=clouds(vec2(st.x+T*.5,-st.y));
 	uv*=1.-.3*(sin(T*.2)*.5+.5);
-	for (float i=1.; i<12.; i++) {
+	for (float i=1.; i<10.; i++) {
 		uv+=.1*cos(i*vec2(.1+.01*i, .8)+i*i+T*.5+.1*uv.x);
 		vec2 p=uv;
 		float d=length(p);

@@ -1,6 +1,5 @@
 import { Code2, Zap, TrendingUp } from "lucide-react";
 import { siteConfig } from "@/lib/content";
-import { CountUp } from "@/components/CountUp";
 
 const cards = [
   {
@@ -46,9 +45,6 @@ export default function IntroStats() {
         <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-3">
           {cards.map((card, i) => {
             const Icon = card.icon;
-            const valueMatch = card.value.match(/^(\d+)(.*)$/);
-            const countTo = valueMatch ? parseInt(valueMatch[1]) : 0;
-            const countSuffix = valueMatch ? valueMatch[2] : "";
             return (
               <div
                 key={card.title}
@@ -95,7 +91,7 @@ export default function IntroStats() {
                         card.tone === "ink" ? "text-white" : "text-ink"
                       }`}
                     >
-                      <CountUp to={countTo} suffix={countSuffix} duration={1.5} />
+                      {card.value}
                     </div>
                     {i !== 2 && (
                     <div className={`text-[10px] font-semibold tracking-wide ${card.tone === "ink" ? "text-white/90" : "text-ink/50"}`}>

@@ -13,25 +13,40 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  const isHome = pathname === "/";
+  // Light page heroes need a solid bar — logo + nav are light-on-dark only.
+  const solid = !isHome || scrolled;
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [pathname]);
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-ink/80 backdrop-blur-xl"
+        solid
+          ? "bg-ink/90 md:bg-ink/80 md:backdrop-blur-xl"
           : "bg-transparent"
       }`}
     >
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-10">
         <Link href="/" className="flex items-center gap-2">
           <div className="relative w-[110px] h-[110px]">
-            <Image src="/images/nine-creatives-logo-image.png" alt="Nine Creatives" fill sizes="100px" loading="eager" className="rounded object-contain" />
+            <Image
+              src="/images/nine-creatives-logo-image.png"
+              alt="Nine Creatives"
+              fill
+              sizes="100px"
+              loading="eager"
+              className="rounded object-contain"
+            />
           </div>
         </Link>
 
@@ -55,10 +70,7 @@ export function Header() {
           })}
         </ul>
 
-        <Link
-          href="/contact"
-          className="hidden md:inline-flex"
-        >
+        <Link href="/contact" className="hidden md:inline-flex">
           <Button variant="pill" size="md">
             Get a Free Review
           </Button>

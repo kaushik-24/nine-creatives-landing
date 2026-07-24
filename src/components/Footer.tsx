@@ -15,7 +15,8 @@ export default function Footer() {
   return (
     <footer id="contact" className="relative overflow-hidden bg-ink px-6 pt-20 lg:px-10">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-20 right-0 h-[420px] w-[420px] rounded-full bg-electric-500/10 blur-[130px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(91,110,225,0.16),transparent_55%)] md:hidden" />
+        <div className="absolute -top-20 right-0 hidden h-[420px] w-[420px] rounded-full bg-electric-500/10 blur-[130px] md:block" />
       </div>
 
       <div className="relative mx-auto max-w-7xl">
