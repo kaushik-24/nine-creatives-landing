@@ -1,4 +1,4 @@
-import { HeroSection } from "@/components/HeroSection";
+// import { HeroSection } from "@/components/HeroSection";
 import IntroStats from "@/components/IntroStats";
 import Services from "@/components/Services";
 import StatsBar from "@/components/StatsBar";
@@ -10,7 +10,7 @@ import { HomeClient } from "@/components/HomeClient";
 export default function HomePage() {
   return (
     <>
-      <HeroSection />
+      {/* <HeroSection /> */}
       <IntroStats />
       <Services />
       <StatsBar />
