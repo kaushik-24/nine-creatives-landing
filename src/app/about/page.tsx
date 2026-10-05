@@ -53,8 +53,8 @@ export default function AboutPage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/10 to-transparent" />
 
-              <div className="absolute left-7 top-7 z-10 rounded-full bg-lime px-4 py-1.5 text-xs font-semibold text-lime-onaccent">
-                Developer &rarr; Designer
+              <div className="absolute left-7 top-7 z-10 rounded-full bg-lime px-4 py-1.5 text-xs font-bold text-ink">
+                Growth Strategist & Lead Engineer
               </div>
 
               <div className="absolute bottom-0 left-0 right-0 p-7">
@@ -93,27 +93,27 @@ export default function AboutPage() {
 
               <div className="flex flex-col justify-between gap-8 rounded-2xl bg-lime p-8 sm:flex-row sm:items-end sm:p-10">
                 <div>
-                  <p className="font-display text-4xl font-black text-lime-onaccent sm:text-5xl">
+                  <p className="font-display text-4xl font-black text-ink sm:text-5xl">
                     100%
                   </p>
-                  <p className="mt-2 text-xs font-medium text-lime-onaccent/60">
-                    On-time delivery
+                  <p className="mt-2 text-xs font-bold uppercase tracking-wider text-ink/75">
+                    On-schedule deployment
                   </p>
                 </div>
                 <div>
-                  <p className="font-display text-4xl font-black text-lime-onaccent sm:text-5xl">
-                    24/7
+                  <p className="font-display text-4xl font-black text-ink sm:text-5xl">
+                    1-on-1
                   </p>
-                  <p className="mt-2 text-xs font-medium text-lime-onaccent/60">
-                    Dedicated support
+                  <p className="mt-2 text-xs font-bold uppercase tracking-wider text-ink/75">
+                    Dedicated strategist
                   </p>
                 </div>
                 <div>
-                  <p className="font-display text-4xl font-black text-lime-onaccent sm:text-5xl">
+                  <p className="font-display text-4xl font-black text-ink sm:text-5xl">
                     3
                   </p>
-                  <p className="mt-2 text-xs font-medium text-lime-onaccent/60">
-                    Countries served
+                  <p className="mt-2 text-xs font-bold uppercase tracking-wider text-ink/75">
+                    Continents served
                   </p>
                 </div>
               </div>

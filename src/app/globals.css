@@ -2,47 +2,55 @@
 
 :root {
   --color-ink: #0f1330;
-  --color-offwhite: #f4f5fc;
-  --color-accent: #5b6ee1;
-  --color-lime: #cbef4c;
+  --color-offwhite: #F9F6EE;
+  --color-accent: #4f8fe6;
+  --color-lime: #23c17c;
+  --color-growth: #23c17c;
+  --color-strategy: #4f8fe6;
 }
 
 @theme {
-  --color-electric-50: #eef0fd;
-  --color-electric-100: #dde0fb;
-  --color-electric-200: #c0c5f7;
-  --color-electric-300: #9da4f2;
-  --color-electric-400: #7b83ec;
-  --color-electric-500: #5b6ee1;
-  --color-electric-onaccent: #0e1235;
-  --color-electric-600: #4855c3;
-  --color-electric-700: #3a44a5;
-  --color-electric-800: #313a87;
-  --color-electric-900: #2a326e;
+  --color-electric-50: #eef5fe;
+  --color-electric-100: #d7e7fd;
+  --color-electric-200: #b5d5fb;
+  --color-electric-300: #81bcf7;
+  --color-electric-400: #4f8fe6;
+  --color-electric-500: #3475d6;
+  --color-electric-onaccent: #0b1526;
+  --color-electric-600: #255cb5;
+  --color-electric-700: #1f4993;
+  --color-electric-800: #1d3e78;
+  --color-electric-900: #1c3564;
 
-  --color-surface-50: #f4f5fc;
-  --color-surface-100: #e8eaf5;
-  --color-surface-200: #d1d4eb;
-  --color-surface-300: #a3a9d6;
-  --color-surface-400: #757dc2;
-  --color-surface-500: #5a62a8;
-  --color-surface-600: #484e8a;
-  --color-surface-700: #363b6c;
-  --color-surface-800: #24284e;
-  --color-surface-900: #181c3f;
+  --color-surface-50: #F9F6EE;
+  --color-surface-100: #eef2f7;
+  --color-surface-200: #d8e2ee;
+  --color-surface-300: #9cb3d3;
+  --color-surface-400: #627d9e;
+  --color-surface-500: #425b7b;
+  --color-surface-600: #2c405c;
+  --color-surface-700: #1d2c42;
+  --color-surface-800: #131f32;
+  --color-surface-900: #0d1523;
   --color-surface-950: #0f1330;
 
   --color-ink: #0f1330;
-  --color-offwhite: #f4f5fc;
+  --color-offwhite: #F9F6EE;
 
-  --color-lime: #cbef4c;
-  --color-lime-onaccent: #1a1f2e;
+  --color-lime: #23c17c;
+  --color-lime-onaccent: #ffffff;
+  --color-growth: #23c17c;
+  --color-strategy: #4f8fe6;
 
   --font-sans: "Switzer", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Cabinet Grotesk", ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
   * {
     @apply border-surface-800;
   }
@@ -58,13 +66,13 @@
 
 @layer utilities {
   .glow {
-    box-shadow: 0 0 20px rgba(91, 110, 225, 0.15);
+    box-shadow: 0 0 24px rgba(79, 143, 230, 0.25);
   }
   .glow-lg {
-    box-shadow: 0 0 40px rgba(91, 110, 225, 0.1);
+    box-shadow: 0 0 45px rgba(79, 143, 230, 0.18);
   }
   .glow-lime {
-    box-shadow: 0 0 20px rgba(203, 239, 76, 0.15);
+    box-shadow: 0 0 24px rgba(35, 193, 124, 0.35);
   }
 }
 

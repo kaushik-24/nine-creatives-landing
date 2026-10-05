@@ -8,17 +8,20 @@ export default function About() {
   return (
     <section id="about" className="bg-offwhite px-6 py-24 lg:px-10">
       <div className="mx-auto max-w-7xl">
-        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-surface-400">
-          <span className="h-px w-6 bg-surface-300" />
-          About
+        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#4f8fe6]">
+          <span className="h-px w-6 bg-[#4f8fe6]/50" />
+          Strategic Leadership
         </div>
 
         <div className="mt-4 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-          <h2 className="font-display text-4xl font-extrabold uppercase tracking-tight text-surface-950 sm:text-5xl">
-            Man behind <span className="text-surface-400">the work</span>
+          <h2 className="font-display text-4xl font-extrabold uppercase tracking-tight text-ink sm:text-5xl">
+            The Mind Behind{" "}
+            <span className="bg-gradient-to-r from-[#23c17c] via-[#3ebd9e] to-[#4f8fe6] bg-clip-text text-transparent">
+              Your Growth
+            </span>
           </h2>
-          <p className="max-w-sm text-sm leading-relaxed text-surface-500">
-            A focused studio with one person at the core and a trusted network of specialists around him.
+          <p className="max-w-md text-sm leading-relaxed text-ink/70">
+            Combining commercial growth strategy with elite engineering to build high-converting platforms that predictably generate qualified client leads.
           </p>
         </div>
 
@@ -38,8 +41,8 @@ export default function About() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/10 to-transparent" />
 
-            <div className="absolute left-7 top-7 z-10 rounded-full bg-lime px-4 py-1.5 text-xs font-semibold text-lime-onaccent">
-              Developer &rarr; Designer
+            <div className="absolute left-7 top-7 z-10 rounded-full bg-lime px-4 py-1.5 text-xs font-bold text-ink">
+              Growth Strategist & Lead Engineer
             </div>
 
             <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between p-7">
@@ -73,28 +76,28 @@ export default function About() {
 
             <div className="flex flex-1 flex-col gap-6 rounded-2xl bg-lime p-8">
               <div>
-                <p className="font-display text-3xl font-black text-lime-onaccent sm:text-4xl">
+                <p className="font-display text-3xl font-black text-ink sm:text-4xl">
                   100%
                 </p>
-                <p className="mt-2 text-xs font-medium text-lime-onaccent/60">
-                  On-time delivery
+                <p className="mt-2 text-xs font-bold uppercase tracking-wider text-ink/75">
+                  On-schedule deployment
                 </p>
               </div>
               <div className="flex justify-between gap-6">
                 <div>
-                  <p className="font-display text-3xl font-black text-lime-onaccent sm:text-4xl">
-                    24/7
+                  <p className="font-display text-3xl font-black text-ink sm:text-4xl">
+                    1-on-1
                   </p>
-                  <p className="mt-2 text-xs font-medium text-lime-onaccent/60">
-                    Dedicated support
+                  <p className="mt-2 text-xs font-bold uppercase tracking-wider text-ink/75">
+                    Dedicated strategist
                   </p>
                 </div>
                 <div>
-                  <p className="font-display text-3xl font-black text-lime-onaccent sm:text-4xl">
+                  <p className="font-display text-3xl font-black text-ink sm:text-4xl">
                     3
                   </p>
-                  <p className="mt-2 text-xs font-medium text-lime-onaccent/60">
-                    Countries served
+                  <p className="mt-2 text-xs font-bold uppercase tracking-wider text-ink/75">
+                    Continents served
                   </p>
                 </div>
               </div>

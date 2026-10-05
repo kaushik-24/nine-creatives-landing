@@ -1,7 +1,8 @@
 import HeroBlueprint from "@/components/HeroBlueprint";
+import ClientLogos from "@/components/ClientLogos";
 import IntroStats from "@/components/IntroStats";
 import Services from "@/components/Services";
-import StatsBar from "@/components/StatsBar";
+import Work from "@/components/Work";
 import About from "@/components/About";
 import Testimonials from "@/components/Testimonials";
 import Footer from "@/components/Footer";
@@ -11,9 +12,10 @@ export default function HomePage() {
   return (
     <>
       <HeroBlueprint />
+      <ClientLogos />
       <IntroStats />
       <Services />
-      <StatsBar />
+      <Work />
       <About />
       <Testimonials />
       <HomeClient />

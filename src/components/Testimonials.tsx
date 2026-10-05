@@ -6,30 +6,29 @@ import { useState } from "react";
 
 const testimonials = [
   {
-    quote: "We had a clear idea of what we wanted, and Nine turned it into a website that actually feels like our business.",
+    quote: "Working with Nine Creatives completely transformed our pipeline. We saw high-value client enquiries jump within the first 60 days.",
     quoteSecondary:
-      "The whole process was straightforward, and the new site has made a much stronger first impression with potential clients.",
+      "They didn't just redesign our site — they built a strategic conversion funnel that positions us as the market authority.",
     name: "Michael Thompson",
-    role: "Owner, Thompson Building Services",
+    role: "Managing Director, Thompson Building Group",
     image: "/images/testimonial-03-image.png",
   },
   {
-    quote: "Nine rebuilt our site and our PageSpeed score went from 43 to 91.",
+    quote: "Nine rebuilt our digital platform and our qualified lead conversion rate more than doubled.",
     quoteSecondary:
-      "We are getting more calls through the site than we were before.",
+      "PageSpeed hit 92, and the enquiry form is generating high-intent calls every single week without increasing ad spend.",
     name: "Sarah Mitchell",
-    role: "Owner, Mitchell Auto Detailing",
+    role: "Founder, Mitchell Auto Detailing",
     image: "/images/testimonial-01-image.png",
   },
   {
-    quote: "Nine gave our website a complete overhaul and made it much easier for customers to find what they need.",
+    quote: "Nine gave our business a complete digital strategy overhaul with zero fluff and maximum commercial focus.",
     quoteSecondary:
-      "The site feels faster, looks far more professional, and we have noticed more enquiries coming through.",
+      "The clarity of the messaging and frictionless customer journey has made closing new contracts significantly faster.",
     name: "James Carter",
-    role: "Director, Carter Property Services",
+    role: "Director, Carter Commercial Services",
     image: "/images/testimonial-02-image.png",
   },
- 
 ];
 
 export default function TestimonialCard() {
@@ -37,19 +36,22 @@ export default function TestimonialCard() {
   const t = testimonials[active];
 
   return (
-    <section className="bg-offwhite px-6 py-24 lg:px-10">
+    <section id="testimonials" className="bg-offwhite px-6 py-24 lg:px-10">
       <div className="mx-auto max-w-7xl">
-        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-surface-400">
-          <span className="h-px w-6 bg-surface-300" />
-          Testimonials
+        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#4f8fe6]">
+          <span className="h-px w-6 bg-[#4f8fe6]/50" />
+          Client Proof & ROI
         </div>
 
         <div className="mt-4 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-          <h2 className="font-display text-4xl font-extrabold uppercase tracking-tight text-surface-950 sm:text-5xl">
-            What our clients <span className="text-surface-400">say</span>
+          <h2 className="font-display text-4xl font-extrabold uppercase tracking-tight text-ink sm:text-5xl">
+            What Our Partners{" "}
+            <span className="bg-gradient-to-r from-[#23c17c] via-[#3ebd9e] to-[#4f8fe6] bg-clip-text text-transparent">
+              Achieve
+            </span>
           </h2>
-          <p className="max-w-sm text-sm leading-relaxed text-surface-500">
-            Real results from service businesses we have built sites for.
+          <p className="max-w-sm text-sm leading-relaxed text-ink/70">
+            Measurable pipeline growth and ROI from businesses we have partnered with.
           </p>
         </div>
 

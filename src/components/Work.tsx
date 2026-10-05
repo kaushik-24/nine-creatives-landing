@@ -20,7 +20,7 @@ function getSpacing() {
 
 export default function Work() {
   const [active, setActive] = useState(0);
-  const [spacing, setSpacing] = useState(320);
+  const [spacing, setSpacing] = useState(680);
   const wheelLock = useRef(false);
 
   const projects = portfolioItems.slice(0, 4);
@@ -75,23 +75,31 @@ export default function Work() {
       }}
     >
       <div className="mx-auto max-w-7xl">
-        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-surface-400">
-          <span className="h-px w-6 bg-surface-300" />
-          Portfolio
+        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#4f8fe6]">
+          <span className="h-px w-6 bg-[#4f8fe6]/50" />
+          Proof Of Work & Client Results
         </div>
 
         <div className="mt-4 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-          <h2 className="font-display text-4xl font-extrabold uppercase tracking-tight text-surface-950 sm:text-5xl">
-            Selected <span className="text-surface-400">work</span>
-          </h2>
-          <Link
-            href="/work"
-          >
-            <Button variant="pill" size="md">
-              View All Projects
-              <ArrowUpRight className="h-4 w-4" />
-            </Button>
-          </Link>
+          <div>
+            <h2 className="font-display text-4xl font-extrabold uppercase tracking-tight text-ink sm:text-5xl">
+              Proven Impact.{" "}
+              <span className="bg-gradient-to-r from-[#23c17c] via-[#3ebd9e] to-[#4f8fe6] bg-clip-text text-transparent">
+                Real Client Results.
+              </span>
+            </h2>
+            <p className="mt-2 max-w-xl text-sm leading-relaxed text-ink/70">
+              High-converting platforms engineered to capture demand, eliminate friction, and predictably generate qualified client leads.
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <Link href="/work">
+              <Button variant="pill" size="md">
+                View All Case Studies
+                <ArrowUpRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -110,10 +118,10 @@ export default function Work() {
             return (
               <div
                 key={offset}
-                className="absolute left-1/2 top-1/2 overflow-hidden rounded-xl bg-white shadow-lg"
+                className="absolute left-1/2 top-1/2 overflow-hidden rounded-2xl bg-white shadow-xl border border-black/5"
                 style={{
                   width: "min(620px, calc(100vw - 80px))",
-                  aspectRatio: "2 / 1",
+                  aspectRatio: "16 / 9",
                   transform: `translate(-50%,-50%) translateX(${x}px) rotateY(${rotateY}deg) scale(${scale})`,
                   transition: "transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1)",
                   cursor: "pointer",
@@ -127,41 +135,87 @@ export default function Work() {
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-cover object-top"
                 />
               </div>
             );
           })}
         </div>
 
-        <div className="mx-auto mt-16 flex max-w-5xl flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mx-auto mt-14 flex max-w-5xl flex-col gap-8 rounded-2xl border border-black/5 bg-white/70 p-8 backdrop-blur-md shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-10">
           <div className="flex-1">
-            <span className="mb-3 block text-xs font-semibold uppercase tracking-[0.15em] text-electric-500">
-              {activeItem.category}
-            </span>
-            <h3 className="font-display text-2xl font-extrabold uppercase tracking-tight text-surface-950 sm:text-3xl">
+            <div className="flex items-center gap-3">
+              <span className="text-xs font-semibold uppercase tracking-[0.15em] text-[#4f8fe6]">
+                {activeItem.category}
+              </span>
+            </div>
+            <h3 className="mt-2 font-display text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
               {activeItem.title}
             </h3>
-            <p className="mt-2 max-w-lg text-sm leading-relaxed text-surface-500">
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink/70">
               {activeItem.description}
             </p>
+
+            {/* Results & Conversion Lift Badges */}
+            {activeItem.result && (
+              <div className="mt-6 flex flex-wrap gap-4">
+                <div className="flex items-center gap-3 rounded-xl border border-[#23c17c]/20 bg-[#23c17c]/10 px-4 py-2">
+                  <span className="font-display text-lg font-black text-[#23c17c]">
+                    {activeItem.result.metric1}
+                  </span>
+                  <span className="text-xs font-medium text-ink/70">
+                    {activeItem.result.metric1Label}
+                  </span>
+                </div>
+                <div className="flex items-center gap-3 rounded-xl border border-[#4f8fe6]/20 bg-[#4f8fe6]/10 px-4 py-2">
+                  <span className="font-display text-lg font-black text-[#4f8fe6]">
+                    {activeItem.result.metric2}
+                  </span>
+                  <span className="text-xs font-medium text-ink/70">
+                    {activeItem.result.metric2Label}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Capability Tags */}
+            <div className="mt-5 flex flex-wrap gap-2">
+              {activeItem.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full border border-ink/10 bg-ink/5 px-3 py-1 text-xs font-medium text-ink/70"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            <div className="mt-6">
+              <Link
+                href="/work"
+                className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#4f8fe6] hover:text-[#23c17c] transition-colors"
+              >
+                Read In-Depth Case Study
+                <ArrowUpRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 shrink-0 self-end sm:self-center">
             <button
               onClick={prev}
-              aria-label="Previous"
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-surface-200 bg-white text-surface-500 transition-colors hover:bg-ink hover:text-white"
+              aria-label="Previous project"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/10 bg-white text-ink transition-colors hover:bg-ink hover:text-white shadow-sm"
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
-            <span className="min-w-[70px] text-center text-sm text-surface-500">
-              {active + 1} / {count}
+            <span className="min-w-[60px] text-center font-mono text-xs font-semibold text-ink/60">
+              0{active + 1} / 0{count}
             </span>
             <button
               onClick={next}
-              aria-label="Next"
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-surface-200 bg-white text-surface-500 transition-colors hover:bg-ink hover:text-white"
+              aria-label="Next project"
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-[#23c17c] text-white transition-transform hover:scale-105 shadow-sm"
             >
               <ChevronRight className="h-5 w-5" />
             </button>

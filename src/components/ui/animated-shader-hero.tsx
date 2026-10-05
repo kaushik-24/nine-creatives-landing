@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import Image from "next/image";
+import { Star, CheckCircle2 } from "lucide-react";
 import AnimatedHeroBackground from "@/components/AnimatedHeroBackground";
 import { Button } from "@/components/ui/Button";
 import { canUseHeroShader, getShaderDpr } from "@/lib/perf";
@@ -25,19 +26,25 @@ interface HeroProps {
       onClick?: () => void;
     };
   };
+  trustProof?: {
+    rating?: string;
+    text?: string;
+    avatars?: string[];
+    highlights?: string[];
+  };
   className?: string;
 }
 
 function HeroMobileBackground() {
   return (
-    <div className="absolute inset-0 bg-black md:hidden" aria-hidden="true">
+    <div className="absolute inset-0 bg-[#030812] md:hidden" aria-hidden="true">
       <Image
         src="/images/mobile-hero-section-bg-image.webp"
         alt=""
         fill
         priority
         sizes="(max-width: 767px) 100vw, 1px"
-        className="object-cover object-center"
+        className="object-cover object-right opacity-25 mix-blend-screen"
       />
     </div>
   );
@@ -193,7 +200,7 @@ void main(){gl_Position=position;}`;
 
       if (!program || gl.getProgramParameter(program, gl.DELETE_STATUS)) return;
 
-      gl.clearColor(0, 0, 0, 1);
+      gl.clearColor(0.012, 0.03, 0.06, 1);
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.useProgram(program);
       gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
@@ -382,6 +389,7 @@ const AnimatedShaderHero: React.FC<HeroProps> = ({
   headline,
   subtitle,
   buttons,
+  trustProof,
   className = "",
 }) => {
   const [useShader, setUseShader] = useState(false);
@@ -391,7 +399,7 @@ const AnimatedShaderHero: React.FC<HeroProps> = ({
   }, []);
 
   return (
-    <div className={`relative h-screen w-full overflow-hidden bg-black ${className}`}>
+    <div className={`relative min-h-screen w-full overflow-hidden bg-[#040a14] ${className}`}>
       <style jsx>{`
         @keyframes fade-in-down {
           from {
@@ -446,38 +454,41 @@ const AnimatedShaderHero: React.FC<HeroProps> = ({
 
       <AnimatedHeroBackground className="z-[1]" />
 
-      <div className="absolute inset-0 z-[2] bg-gradient-to-b from-black/40 via-black/70 to-black/40" />
+      {/* Deep dark gradient overlay */}
+      <div
+        className="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-b from-[#02060d]/75 via-transparent to-[#02060d]/90"
+        aria-hidden="true"
+      />
 
-      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-white">
-        {trustBadge && (
-          <div className="mb-10 animate-fade-in-down">
-            <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-widest text-surface-500">
-              <span className="h-px w-6 bg-surface-700" />
-              {trustBadge.text}
-              <span className="h-px w-6 bg-surface-700" />
-            </div>
-          </div>
-        )}
+      <div className="relative z-10 flex min-h-screen w-full flex-col justify-center px-6 py-28 text-white sm:py-32 lg:px-10">
+        <div className="mx-auto w-full max-w-7xl">
+          <div className="w-full text-left">
+            {trustBadge && (
+              <div className="mb-3 flex items-center gap-3 text-xs font-semibold uppercase tracking-widest text-surface-400 animate-fade-in-down sm:mb-4">
+                <span className="h-px w-6 bg-surface-600" />
+                <span>{trustBadge.text}</span>
+              </div>
+            )}
 
-        <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
-          <div className="mx-auto max-w-5xl text-center">
-            <div className="space-y-2">
-              <h1 className="animate-fade-in-up animation-delay-200 font-display text-5xl font-extrabold uppercase leading-[1.05] tracking-tight text-white md:text-7xl lg:text-8xl">
+            <div className="space-y-1 sm:space-y-2">
+              <h1 className="animate-fade-in-up animation-delay-200 font-display text-4xl font-extrabold uppercase leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
                 {headline.line1}
               </h1>
-              <h1 className="animate-fade-in-up animation-delay-400 font-display text-5xl font-extrabold uppercase leading-[1.05] tracking-tight text-white md:text-7xl lg:text-8xl">
-                {headline.line2}
+              <h1 className="animate-fade-in-up animation-delay-400 font-display text-4xl font-extrabold uppercase leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
+                <span className="bg-gradient-to-r from-[#23c17c] via-[#3ebd9e] to-[#4f8fe6] bg-clip-text text-transparent">
+                  {headline.line2}
+                </span>
               </h1>
             </div>
 
-            <div className="mx-auto mt-6 max-w-3xl animate-fade-in-up animation-delay-600">
+            <div className="mt-6 max-w-2xl animate-fade-in-up animation-delay-600 sm:mt-7">
               <p className="text-lg leading-relaxed text-surface-300/90 md:text-xl lg:text-2xl">
                 {subtitle}
               </p>
             </div>
 
             {buttons && (
-              <div className="mt-10 flex animate-fade-in-up flex-col items-center justify-center gap-4 animation-delay-800 sm:flex-row">
+              <div className="mt-12 flex animate-fade-in-up flex-col items-start justify-start gap-4 animation-delay-800 sm:mt-14 sm:flex-row sm:items-center lg:mt-16">
                 {buttons.primary && (
                   <Button variant="pill" size="lg" onClick={buttons.primary.onClick}>
                     {buttons.primary.text}
@@ -487,6 +498,62 @@ const AnimatedShaderHero: React.FC<HeroProps> = ({
                   <Button variant="pill-outline" size="lg" onClick={buttons.secondary.onClick}>
                     {buttons.secondary.text}
                   </Button>
+                )}
+              </div>
+            )}
+
+            {trustProof && (
+              <div className="mt-8 flex animate-fade-in-up flex-col items-start justify-start gap-3.5 animation-delay-800 sm:mt-10">
+                <div className="inline-flex max-w-full items-center gap-3.5 rounded-2xl border border-[#4f8fe6]/20 bg-[#4f8fe6]/[0.06] p-3 backdrop-blur-md transition-colors hover:border-[#4f8fe6]/40 sm:rounded-full sm:px-4.5 sm:py-2.5">
+                  {trustProof.avatars && trustProof.avatars.length > 0 && (
+                    <div className="flex -space-x-2 shrink-0">
+                      {trustProof.avatars.map((avatar, idx) => (
+                        <div
+                          key={idx}
+                          className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full border-2 border-black ring-1 ring-[#4f8fe6]/30"
+                        >
+                          <Image
+                            src={avatar}
+                            alt="Client review"
+                            fill
+                            sizes="32px"
+                            className="object-cover"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="flex flex-col justify-center text-left sm:flex-row sm:items-center sm:gap-2">
+                    <div className="flex items-center gap-1.5">
+                      <div className="flex gap-0.5 text-[#23c17c]">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} className="h-3.5 w-3.5 fill-[#23c17c] text-[#23c17c] sm:h-4 sm:w-4" />
+                        ))}
+                      </div>
+                      {trustProof.rating && (
+                        <span className="text-sm font-bold text-white">
+                          {trustProof.rating}
+                        </span>
+                      )}
+                    </div>
+                    {trustProof.text && (
+                      <span className="text-[13px] text-surface-300 sm:text-sm">
+                        {trustProof.text}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {trustProof.highlights && trustProof.highlights.length > 0 && (
+                  <div className="flex flex-col gap-2 text-sm text-surface-300 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6 sm:text-surface-400">
+                    {trustProof.highlights.map((item, idx) => (
+                      <span key={idx} className="flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4 shrink-0 text-[#23c17c]" />
+                        <span>{item}</span>
+                      </span>
+                    ))}
+                  </div>
                 )}
               </div>
             )}
@@ -547,20 +614,51 @@ float clouds(vec2 p) {
 	return t;
 }
 void main(void) {
-	vec2 uv=(FC-.5*R)/MN,st=uv*vec2(2,1);
-	vec3 col=vec3(0);
-	float bg=clouds(vec2(st.x+T*.5,-st.y));
-	uv*=1.-.3*(sin(T*.2)*.5+.5);
-	for (float i=1.; i<10.; i++) {
-		uv+=.1*cos(i*vec2(.1+.01*i, .8)+i*i+T*.5+.1*uv.x);
-		vec2 p=uv;
-		float d=length(p);
-		col+=.00125/d*(cos(sin(i)*vec3(1.5,1,2.5))+1.);
-		float b=noise(i+p+bg*1.731);
-		col+=.002*b/length(max(p,vec2(b*p.x*.02,p.y)));
-		col=mix(col,vec3(bg*.08,bg*.06,bg*.18),d);
+	// 1. Full-screen cloud background spanning the entire hero section
+	vec2 cloudUV = (FC - 0.5 * R) / MN;
+	vec2 cloudST = cloudUV * vec2(1.8, 1.0);
+	float bg = clouds(vec2(cloudST.x + T * 0.25, -cloudST.y));
+
+	// Deep, dark midnight navy tones (based on #0d2b52, much darker & moodier, NO green)
+	vec3 cDeepNavy = vec3(0.015, 0.045, 0.09); // Deep dark midnight
+	vec3 cNavy     = vec3(0.035, 0.11, 0.22);  // Moody muted #0d2b52
+	vec3 cBlue     = vec3(0.26, 0.52, 0.88);   // Luminous line blue
+	vec3 cSky      = vec3(0.40, 0.66, 0.96);   // Ice/Sapphire line highlights
+
+	// Subtle, moody cloud wisps over a deep pitch-dark background
+	float cloudHue = sin(T * 0.2 + cloudST.x * 0.5) * 0.5 + 0.5;
+	vec3 cloudColor = mix(cDeepNavy, cNavy, cloudHue) * pow(bg, 1.35) * 0.80;
+	vec3 col = cloudColor;
+
+	// 2. Lines positioned and moving forward towards the right section (dimmed to not compete with content)
+	vec2 lineCenter = R.x > R.y ? vec2(R.x * 0.80, R.y * 0.50) : vec2(R.x * 0.72, R.y * 0.56);
+	vec2 uv = (FC - lineCenter) / MN;
+	uv *= 1.0 - 0.35 * (sin(T * 0.25) * 0.5 + 0.5);
+
+	vec3 lineAccum = vec3(0.0);
+	for (float i = 1.0; i < 10.0; i++) {
+		uv += 0.11 * cos(i * vec2(0.12 + 0.01 * i, 0.75) + i * i + T * 0.65 + 0.15 * uv.x);
+		vec2 p = uv;
+		float d = length(p);
+		float blend = sin(i * 0.8 + T * 0.45) * 0.5 + 0.5;
+		vec3 waveColor = mix(cBlue * 0.85, cSky * 0.6, blend);
+
+		// Soft, refined head glow
+		lineAccum += (0.00062 / max(d, 0.003)) * waveColor;
+
+		// Refined trailing filaments with sapphire color tint
+		float b = noise(i + p + bg * 1.731);
+		float lineCore = 0.00055 * b / max(length(max(p, vec2(b * p.x * 0.02, p.y))), 0.0026);
+		lineAccum += lineCore * mix(cBlue * 0.9, cSky * 0.65, blend);
 	}
-	O=vec4(col,1);
+
+	// Add lines with balanced opacity (~54% intensity)
+	col += lineAccum * 0.54;
+
+	// Smoothly blend lines into the deep dark cloud atmosphere
+	col = mix(col, cloudColor, clamp(length(uv) * 0.5, 0.0, 0.85));
+
+	O = vec4(col, 1.0);
 }`;
 
 export default AnimatedShaderHero;

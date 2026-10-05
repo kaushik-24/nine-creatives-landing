@@ -7,39 +7,47 @@ const cards = [
     tone: "ink",
     value: siteConfig.stats.projects,
     valueLabel: siteConfig.stats.projectsLabel,
-    title: "SITES DELIVERED",
+    title: "GROWTH PLATFORMS",
     description:
-      "Every site built from scratch, no templates, focused on turning visitors into enquiries.",
+      "Bespoke conversion platforms engineered from the ground up, built to capture high-intent buyers and turn visitors into pipeline.",
   },
   {
     icon: Zap,
     tone: "ink",
     value: siteConfig.stats.score,
     valueLabel: siteConfig.stats.scoreLabel,
-    title: "PERFORMANCE FIRST",
+    title: "SPEED & CONVERSION",
     description:
-      "We optimise every site for speed. A fast site keeps visitors on the page and drives results.",
+      "Sub-second load times and frictionless buyer journeys designed to capture attention and eliminate drop-off.",
   },
   {
     icon: TrendingUp,
     tone: "electric",
     value: siteConfig.stats.growth,
     valueLabel: siteConfig.stats.growthLabel,
-    title: "CLIENT RESULTS",
+    title: "QUALIFIED LEADS",
     description:
-      "Our clients see an average 64% increase in enquiries after a site rebuild.",
+      "Our clients experience an average 64% surge in qualified client enquiries within the first 90 days.",
   },
 ];
 
 export default function IntroStats() {
   return (
     <section
+      id="overview"
       className="bg-offwhite px-6 pb-20 pt-20 lg:px-10"
     >
       <div className="mx-auto max-w-7xl">
-        <h2 className="max-w-3xl font-display text-3xl font-extrabold uppercase leading-[1.15] tracking-tight text-surface-950 sm:text-4xl">
-          Built To Do More Than Look Good.
-          <span className="text-surface-400"> Designed To Turn Visitors Into Enquiries.</span>
+        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#4f8fe6]">
+          <span className="h-px w-6 bg-[#4f8fe6]/50" />
+          Strategic Impact
+        </div>
+
+        <h2 className="mt-4 max-w-4xl font-display text-3xl font-extrabold uppercase leading-[1.15] tracking-tight text-ink sm:text-4xl lg:text-5xl">
+          Engineered For Predictable Growth.{" "}
+          <span className="bg-gradient-to-r from-[#23c17c] via-[#3ebd9e] to-[#4f8fe6] bg-clip-text text-transparent">
+            Structured To Generate Qualified Client Leads.
+          </span>
         </h2>
 
         <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-3">

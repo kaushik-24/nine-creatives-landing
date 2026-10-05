@@ -1,84 +1,128 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { navLinks } from "@/lib/content";
 import { Button } from "@/components/ui/Button";
 
 export function Header() {
-  const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-
-  const isHome = pathname === "/";
-  // Light page heroes need a solid bar — logo + nav are light-on-dark only.
-  const solid = !isHome || scrolled;
+  const [activeSection, setActiveSection] = useState<string>("");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [pathname]);
+    const sectionIds = ["overview", "services", "work", "about", "testimonials", "contact"];
 
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [pathname]);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40);
+
+      const scrollPos = window.scrollY + 160;
+      let current = "";
+      for (const id of sectionIds) {
+        const element = document.getElementById(id);
+        if (element) {
+          const top = element.offsetTop;
+          const height = element.offsetHeight;
+          if (scrollPos >= top && scrollPos < top + height) {
+            current = `#${id}`;
+            break;
+          }
+        }
+      }
+      setActiveSection(current);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleAnchorClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    if (href.startsWith("#")) {
+      e.preventDefault();
+      const id = href.replace("#", "");
+      if (!id) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+      setActiveSection(href);
+      setMobileOpen(false);
+    }
+  };
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        solid
-          ? "bg-ink/90 md:bg-ink/80 md:backdrop-blur-xl"
-          : "bg-transparent"
+        scrolled
+          ? "bg-ink/90 backdrop-blur-xl border-b border-white/10 shadow-xl"
+          : "bg-ink/40 backdrop-blur-md border-b border-white/5"
       }`}
     >
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-10">
-        <Link href="/" className="flex items-center gap-2">
+        <a
+          href="#"
+          onClick={(e) => handleAnchorClick(e, "#")}
+          className="flex items-center gap-2 transition-transform hover:scale-105"
+          aria-label="Nine Creatives Home"
+        >
           <div className="relative w-[110px] h-[110px]">
             <Image
               src="/images/nine-creatives-logo-image.png"
               alt="Nine Creatives"
               fill
-              sizes="100px"
+              sizes="110px"
               loading="eager"
               className="rounded object-contain"
             />
           </div>
-        </Link>
+        </a>
 
         <ul className="hidden items-center gap-8 md:flex">
-          {navLinks.slice(1).map((link) => {
-            const isActive = pathname === link.href;
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.href;
             return (
               <li key={link.href}>
-                <Link
+                <a
                   href={link.href}
-                  className={`text-[16px] font-medium uppercase transition-colors ${
+                  onClick={(e) => handleAnchorClick(e, link.href)}
+                  className={`relative text-[15px] font-semibold uppercase tracking-wider transition-colors duration-200 ${
                     isActive
-                      ? "text-electric-400"
-                      : "text-offwhite hover:text-surface-300"
+                      ? "text-lime"
+                      : "text-offwhite/85 hover:text-white"
                   }`}
                 >
                   {link.label}
-                </Link>
+                  {isActive && (
+                    <span className="absolute -bottom-1.5 left-0 right-0 h-0.5 rounded-full bg-lime animate-pulse" />
+                  )}
+                </a>
               </li>
             );
           })}
         </ul>
 
-        <Link href="/contact" className="hidden md:inline-flex">
+        <a
+          href="#contact"
+          onClick={(e) => handleAnchorClick(e, "#contact")}
+          className="hidden md:inline-flex"
+        >
           <Button variant="pill" size="md">
-            Get a Free Review
+            Book a Strategy Call
+            <ArrowUpRight className="h-4 w-4" />
           </Button>
-        </Link>
+        </a>
 
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="rounded-lg p-2 text-surface-400 hover:text-white md:hidden"
+          className="rounded-lg p-2 text-surface-300 hover:text-white md:hidden transition-colors"
           aria-label="Toggle menu"
         >
           {mobileOpen ? <X size={24} /> : <Menu size={24} />}
@@ -86,37 +130,41 @@ export function Header() {
       </nav>
 
       {mobileOpen && (
-        <div className="border-t border-white/10 bg-ink md:hidden">
-          <nav className="flex flex-col px-6 py-4 gap-1">
+        <div className="border-t border-white/10 bg-ink/95 backdrop-blur-2xl md:hidden px-6 py-5 shadow-2xl">
+          <nav className="flex flex-col gap-2">
             {navLinks.map((link) => {
-              const isActive = pathname === link.href;
+              const isActive = activeSection === link.href;
               return (
-                <Link
+                <a
                   key={link.href}
                   href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
+                  onClick={(e) => handleAnchorClick(e, link.href)}
+                  className={`rounded-xl px-4 py-3 text-base font-semibold uppercase tracking-wider transition-colors ${
                     isActive
-                      ? "text-electric-400 bg-electric-400/10"
-                      : "text-surface-400 hover:text-white hover:bg-white/5"
+                      ? "bg-lime/15 text-lime"
+                      : "text-offwhite/80 hover:bg-white/5 hover:text-white"
                   }`}
                 >
                   {link.label}
-                </Link>
+                </a>
               );
             })}
-            <Link
-              href="/contact"
-              onClick={() => setMobileOpen(false)}
-              className="mt-2 flex md:hidden"
-            >
-              <Button variant="pill" size="md" className="w-full">
-                Get a Free Review
-              </Button>
-            </Link>
+            <div className="pt-3 mt-1 border-t border-white/10">
+              <a
+                href="#contact"
+                onClick={(e) => handleAnchorClick(e, "#contact")}
+                className="flex"
+              >
+                <Button variant="pill" size="md" className="w-full justify-center">
+                  Book a Strategy Call
+                  <ArrowUpRight className="h-4 w-4 ml-1" />
+                </Button>
+              </a>
+            </div>
           </nav>
         </div>
       )}
     </header>
   );
 }
+

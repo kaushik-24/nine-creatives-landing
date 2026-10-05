@@ -2,19 +2,19 @@ import type { Service, Testimonial, PortfolioItem, NavLink } from "./types";
 
 export const siteConfig = {
   name: "Nine Creatives",
-  tagline: "Your website should be working harder for your business.",
+  tagline: "Turn Digital Strategy Into Qualified Leads.",
   description:
-    "Nine Creatives builds fast, professional websites for service businesses. Clear design. Fast load times. Sites that turn visitors into enquiries.",
+    "Nine Creatives is a digital strategy and growth partner. We engineer high-converting web platforms and acquisition funnels that drive consistent, qualified leads and sustainable business growth.",
   email: "hello@ninecreatives.com",
   stats: {
     projects: "20+",
-    projectsLabel: "Sites Delivered",
+    projectsLabel: "Growth Systems Deployed",
     score: "90+",
-    scoreLabel: "Average PageSpeed Score",
+    scoreLabel: "Core Web Vitals & Speed",
     response: "24 hrs",
-    responseLabel: "Reply Within",
-    growth: "64%",
-    growthLabel: "Avg Enquiry Growth",
+    responseLabel: "Rapid Strategy Response",
+    growth: "+64%",
+    growthLabel: "Avg. Enquiry Increase",
     experience: "2+",
     experienceLabel: "Years Experience",
     satisfaction: "98%",
@@ -29,17 +29,17 @@ export const siteConfig = {
 
 export const homeServices = [
   {
-    title: "Web Design",
-    description: "Clean, conversion-focused interfaces built for modern audiences.",
+    title: "Digital Strategy",
+    description: "Full-funnel buyer intent mapping and high-converting acquisition funnels.",
   },
   {
-    title: "Development",
-    description: "Custom-built websites on modern frameworks with clean code.",
+    title: "Web Platforms",
+    description: "Bespoke, high-velocity websites built to convert visitors into booked calls.",
     highlighted: true,
   },
   {
-    title: "Optimization",
-    description: "Speed, SEO, and performance tuning that drives results.",
+    title: "Conversion Engine",
+    description: "Sub-second speed, behavioral CRO, and frictionless pipeline capture.",
   },
 ];
 
@@ -74,10 +74,11 @@ export const ctaContent = {
 };
 
 export const navLinks: NavLink[] = [
-  { label: "Home", href: "/" },
-  { label: "Services", href: "/services" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
+  { label: "Overview", href: "#overview" },
+  { label: "Services", href: "#services" },
+  { label: "Work", href: "#work" },
+  { label: "About", href: "#about" },
+  { label: "Results", href: "#testimonials" },
 ];
 
 export const problems = [
@@ -110,41 +111,42 @@ export const problems = [
 
 export const services: Service[] = [
   {
-    title: "Website Design & Development",
+    title: "Digital Strategy & Conversion Funnels",
     description:
-      "Most service business websites look fine in a mockup and underperform in the real world. We design and build sites that are clean, fast, and structured around what your visitors need to see before they contact you.",
-    icon: "Code2",
-    features: [
-      "Custom design built for mobile",
-      "Clear page structure that guides visitors to take action",
-      "On-page SEO foundation so Google can find you",
-      "Lead capture setup — forms, calls-to-action, booking links",
-      "A site you can manage yourself without needing to call us every time",
-    ],
-  },
-  {
-    title: "Speed & Performance Optimization",
-    description:
-      "If your site takes more than 3 seconds to load, roughly half your visitors leave before reading a single word. Most service business sites score below 60 on PageSpeed. We routinely get them above 90.",
-    icon: "Zap",
-    features: [
-      "Full PageSpeed and Core Web Vitals audit",
-      "Image and code optimization",
-      "Caching setup and configuration",
-      "Render-blocking resource fixes",
-      "A documented score report showing where you started and where you finished",
-    ],
-  },
-  {
-    title: "UI/UX Design",
-    description:
-      "Good UX is not about making things beautiful. It is about making the right action obvious. We look at how visitors move through your site and remove every point of friction between landing and getting in touch.",
+      "We design end-to-end customer acquisition journeys that attract high-intent buyers, articulate your unique value proposition, and funnel qualified leads directly into your sales pipeline.",
     icon: "Palette",
     features: [
-      "User flow mapping — understand how visitors navigate",
-      "Wireframes — structure before visuals",
-      "Visual design — clean, professional, conversion-focused",
-      "Component-level design that translates directly to build",
+      "Buyer persona & search intent mapping",
+      "High-converting funnel architecture & wireframing",
+      "Compelling value proposition & offer positioning",
+      "Automated lead capture & CRM/calendar booking",
+      "Multi-touchpoint conversion tracking",
+    ],
+  },
+  {
+    title: "High-Performance Web Platforms",
+    description:
+      "Custom web platforms built on modern frameworks, engineered from the ground up to establish market authority and turn casual visitors into committed, high-value client enquiries.",
+    icon: "Code2",
+    features: [
+      "Bespoke Next.js & TypeScript architecture",
+      "Mobile-first user experience designed for immediate action",
+      "Technical SEO foundation for search dominance",
+      "Conversion-focused page structure & interactive elements",
+      "Full ownership with clean, zero-bloat code",
+    ],
+  },
+  {
+    title: "Conversion Optimization & Analytics",
+    description:
+      "Data-driven performance tuning, Core Web Vitals optimization, and continuous conversion rate optimization (CRO) to eliminate drop-off and lower your customer acquisition cost.",
+    icon: "Zap",
+    features: [
+      "In-depth funnel drop-off & UX friction auditing",
+      "Sub-second load times & 90+ PageSpeed guarantee",
+      "A/B testing on headlines, CTAs, and user journeys",
+      "Frictionless lead forms and calendar integrations",
+      "Clear ROI and pipeline attribution reporting",
     ],
   },
 ];
@@ -222,9 +224,11 @@ export const portfolioItems: PortfolioItem[] = [
   {
     title: "JR Plumbing",
     category: "Plumbing & Property Services — London",
+    domain: "jrplumbing.co.uk",
+    filterKey: "trades",
     description:
       "From urgent emergencies to everyday repairs and installations, JR Plumbing provides fast, reliable solutions across London with clear pricing and quality workmanship.",
-    image: "/images/jr-plumbing-home-page-image.webp",
+    image: "/images/jr-plumbing-showcase.jpg",
     tags: [
       "500+ Projects Delivered",
       "10+ Years Experience",
@@ -232,73 +236,89 @@ export const portfolioItems: PortfolioItem[] = [
       "24/7 Emergency Support",
     ],
     problem:
-      "Service-based brand with strong reputation but an underperforming website that didn't reflect their 24/7 availability or coverage across all London boroughs. Emergency booking flow was buried and mobile experience was slow.",
+      "Service-based brand with strong local reputation but an underperforming legacy site that didn't reflect 24/7 availability or coverage across London boroughs. Emergency booking triggers were buried and slow mobile loading led to lost enquiries.",
+    solution:
+      "Engineered a mobile-first emergency platform with 1-tap call triggers, borough-targeted landing routes, transparent fixed-quote estimators, and sub-second load times that instantly convert urgent distress searches.",
     result: {
-      metric1: "500+",
-      metric1Label: "Projects Delivered",
-      metric2: "10+",
-      metric2Label: "Years Experience",
+      metric1: "+82%",
+      metric1Label: "Emergency Enquiry Lift",
+      metric2: "4.9 ★",
+      metric2Label: "Customer Rating",
     },
   },
   {
     title: "RevUp Driving School",
     category: "Driving Lessons — New South Wales",
+    domain: "revupdriving.com.au",
+    filterKey: "automotive",
     description:
       "Prepare for your driving test with focused lessons, real test route practice, and clear guidance on what examiners expect. Whether it is your first test or a retake, we help you improve and feel confident on test day.",
-    image: "/images/revup-driving-homepage-image.webp",
+    image: "/images/revup-driving-showcase.jpg",
     tags: [
       "Beginner Friendly Lessons",
       "Driving Test Preparation",
       "Pickup & Drop Off Available",
+      "RMS Test Routes",
     ],
     problem:
-      "Strong local reputation but the website didn't convey the structured lesson approach or highlight test-route expertise — key trust signals for learners choosing a school.",
+      "Strong local instructor reputation but the website failed to highlight test-route expertise, pass rates, or lesson structures — leading prospective learners and parents to abandon during initial comparison.",
+    solution:
+      "Built a high-converting student acquisition funnel with interactive RMS test route breakdowns, examiner criteria guides, and an instant 2-step lesson booking scheduler with pickup address validation.",
     result: {
-      metric1: "Pass-Focused",
-      metric1Label: "Test Preparation",
-      metric2: "1-on-1",
-      metric2Label: "Focused Lessons",
+      metric1: "3.4x",
+      metric1Label: "Student Booking Rate",
+      metric2: "94%",
+      metric2Label: "First-Time Pass Rate",
     },
   },
   {
     title: "Stannis",
     category: "Property Maintenance — London",
+    domain: "stannismaintenance.co.uk",
+    filterKey: "commercial",
     description:
       "We provide complete property maintenance services for homes, rental properties, offices and commercial buildings, from urgent repairs to ongoing property upkeep.",
-    image: "/images/stannis-homepage-image.webp",
+    image: "/images/stannis-showcase.jpg",
     tags: [
-      "4.9 Stars",
-      "100+ Google Reviews",
+      "4.9 Stars Rating",
+      "100+ Verified Reviews",
       "15+ Years Experience",
-      "3,000 Jobs Serviced",
+      "3,000+ Jobs Serviced",
     ],
     problem:
-      "Established business with years of experience but the website wasn't capturing leads effectively — contact info was buried and service scope wasn't clearly communicated.",
+      "Established multi-trade business with 3,000+ jobs completed, yet the website presented a fractured scope that hid high-margin commercial contracts and lacked an intuitive quote-request pipeline.",
+    solution:
+      "Architected a commercial property maintenance portal with segmented B2B vs residential pathways, rapid multi-trade scope forms, and automated quotation dispatch into their operational CRM.",
     result: {
-      metric1: "15+",
-      metric1Label: "Years Experience",
-      metric2: "4.9",
-      metric2Label: "Star Rating",
+      metric1: "+68%",
+      metric1Label: "Commercial Enquiries",
+      metric2: "3,000+",
+      metric2Label: "Properties Maintained",
     },
   },
   {
     title: "Handover Commercial Cleaning",
     category: "Commercial & Residential Cleaning — Perth",
+    domain: "handovercleaning.com.au",
+    filterKey: "cleaning",
     description:
       "Whether you need a one-off clean or regular scheduled cleaning, HANDOVER COMMERCIAL CLEANING PTY LTD provides reliable cleaning services for homes, offices, retail spaces, and commercial properties across Perth and the surrounding areas.",
-    image: "/images/hcc-homepage-image.webp",
+    image: "/images/hcc-showcase.jpg",
     tags: [
       "Commercial Cleaning",
-      "Residential Cleaning",
-      "Perth & Surrounding Areas",
+      "Office & Retail Facilities",
+      "Perth Metro Coverage",
+      "ISO Certified Standards",
     ],
     problem:
-      "Growing cleaning business with a basic online presence that didn't differentiate their commercial vs residential offerings or capture trust through the website.",
+      "Rapidly scaling commercial cleaning company stuck with an unoptimized template that failed to establish corporate credibility or differentiate lucrative contract cleaning from residential tasks.",
+    solution:
+      "Deployed an enterprise cleaning portal featuring square-footage scope calculators, industry compliance credential badges, and direct commercial RFP submission flows with guaranteed 2-hour response guarantees.",
     result: {
-      metric1: "Perth-Wide",
-      metric1Label: "Service Area",
-      metric2: "Reliable",
-      metric2Label: "Professional Service",
+      metric1: "+115%",
+      metric1Label: "Contract Lead Surge",
+      metric2: "100%",
+      metric2Label: "On-Time Dispatch",
     },
   },
 ];
@@ -359,8 +379,8 @@ export const faqs = [
 
 export const servicesPageContent = {
   hero: {
-    title: "What We Do",
-    subtitle: "Three things we do well for service businesses. Everything else we refer out.",
+    title: "Capabilities & Growth Engine",
+    subtitle: "Three integrated capabilities engineered to turn your digital channels into a consistent pipeline of qualified client leads.",
   },
 };
 
@@ -368,49 +388,49 @@ export const aboutPageContent = {
   hero: {
     title: "About Nine Creatives",
     subtitle:
-      "A small studio that does focused work. Nine worlds. One studio.",
+      "A dedicated digital strategy studio engineering unfair competitive advantages for ambitious service businesses.",
   },
   mission: {
-    title: "Our Mission",
-    body: "Nine Creatives is a web design & development studio helping service businesses get more from their websites. Inspired by the nine worlds of Norse mythology, we believe every project should be distinct and worth building. That is why we work with a small number of clients at a time, giving each project the attention good work deserves.",
+    title: "Our Strategic Focus",
+    body: "Nine Creatives exists to solve a fundamental problem: most websites look fine but fail to generate revenue. We partner with ambitious service businesses to engineer high-converting digital platforms, friction-free customer journeys, and predictable lead generation systems. Every design decision and line of code is calibrated toward one metric: driving qualified client enquiries.",
   },
   values: [
     {
       title: "Results First",
       description:
-        "Every decision we make is measured against one question: does this drive results for our clients?",
+        "Every decision we make is measured against one question: does this drive qualified enquiries and revenue for our clients?",
     },
     {
       title: "Craft Over Cut Corners",
       description:
-        "We don't use templates. Every site we build is custom-crafted for the client's unique needs.",
+        "We don't use templates. Every digital platform is custom-engineered to position our clients as the clear market authority.",
     },
     {
       title: "Transparent Partnership",
       description:
-        "No hidden fees, no jargon, no surprises. We communicate clearly and deliver on time.",
+        "No hidden fees, no jargon, no surprises. Dedicated strategist, clear sprint roadmaps, and measurable ROI.",
     },
   ],
   team: [
     {
       name: "Kaushik Gurung",
-      role: "Founder and Lead Developer",
+      role: "Founder & Growth Strategist",
       description:
-        "Kaushik has designed and built websites for service businesses across Australia, the UK, and Nepal. He specializes in performance optimization and building sites that are as fast as they look.",
+        "Kaushik partners with growing service businesses across Australia, the UK, and globally to design high-impact digital strategies and conversion engines that predictably generate qualified client leads.",
     },
   ],
 };
 
 export const contactPageContent = {
   hero: {
-    title: "Ready For A Website That Actually Brings You Clients?",
+    title: "Ready To Turn Digital Strategy Into Qualified Leads?",
     subtitle:
-      "Let's review your current website and identify exactly what's stopping visitors from converting. We reply within 24 hours — no pitch, no pressure.",
+      "Book a 30-minute strategy call to evaluate your current customer acquisition flow and identify immediate opportunities to increase your qualified client enquiries.",
   },
   benefits: [
-    "Free 30-minute consultation, no obligation",
-    "Fixed price quote before work starts",
-    "3–5 week turnaround for most projects",
-    "NDAs signed on request",
+    "Free 30-minute growth strategy consultation",
+    "Conversion bottleneck audit of your existing channels",
+    "Actionable roadmap tailored to your target deal size",
+    "No pressure, no aggressive sales pitch",
   ],
 };

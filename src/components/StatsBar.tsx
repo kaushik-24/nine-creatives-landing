@@ -5,23 +5,23 @@ export default function StatsBar() {
     <section className="bg-lime px-6 py-14 lg:px-10">
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-8 sm:grid-cols-4">
         <StatItem
-          label="Industry experience"
-          metric="Years"
+          label="Strategic experience"
+          metric="Track Record"
           value={siteConfig.stats.experience}
         />
         <StatItem
           label="Client satisfaction"
-          metric="Rate"
+          metric="Partner Rating"
           value={siteConfig.stats.satisfaction}
         />
         <StatItem
-          label="Sites delivered"
-          metric="Projects"
-          value={siteConfig.stats.projects}
+          label="Avg lead increase"
+          metric="Conversion Lift"
+          value={siteConfig.stats.growth}
         />
         <StatItem
-          label="Avg PageSpeed"
-          metric="Score"
+          label="Speed & Core Vitals"
+          metric="Benchmark Score"
           value={siteConfig.stats.score}
         />
       </div>

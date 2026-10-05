@@ -33,6 +33,9 @@ export interface PortfolioItem {
   image: string;
   tags: string[];
   problem?: string;
+  solution?: string;
+  domain?: string;
+  filterKey?: string;
   result?: {
     metric1: string;
     metric1Label: string;

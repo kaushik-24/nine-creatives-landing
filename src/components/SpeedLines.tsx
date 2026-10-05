@@ -28,8 +28,8 @@ interface Line {
 const COUNT = [30, 40, 50];
 
 export default function SpeedLines({
-  accentColor = "#7b83ec",
-  secondaryColor = "#cbef4c",
+  accentColor = "#4f8fe6",
+  secondaryColor = "#23c17c",
   className = "",
 }: SpeedLinesProps) {
   const ref = useRef<HTMLDivElement>(null);
