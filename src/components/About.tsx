@@ -32,7 +32,7 @@ export default function About() {
               style={{ backgroundImage: "url(/images/low-poly-grid-haikei.svg)" }}
             />
             <Image
-              src="/images/kaushik-with-trekking-gears-image.png"
+              src="/images/testimonial-03-image.png"
               alt={founder.name}
               fill
               sizes="(min-width: 1024px) 45vw, 100vw"

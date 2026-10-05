@@ -413,10 +413,10 @@ export const aboutPageContent = {
   ],
   team: [
     {
-      name: "Kaushik Gurung",
+      name: "XYZ",
       role: "Founder & Growth Strategist",
       description:
-        "Kaushik partners with growing service businesses across Australia, the UK, and globally to design high-impact digital strategies and conversion engines that predictably generate qualified client leads.",
+        "Partners with growing service businesses across Australia, the UK, and globally to design high-impact digital strategies and conversion engines that predictably generate qualified client leads.",
     },
   ],
 };
